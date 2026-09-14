@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${editando} ? 'Editar Localização' : 'Nova Localização'">Nova Localização - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo/localizacoes}" class="back-link">←</a>
+        <h1 style="color:#9B2226;" th:text="${editando} ? 'EDITAR LOCALIZAÇÃO' : 'NOVA LOCALIZAÇÃO'">NOVA LOCALIZAÇÃO</h1>
+
+        <form th:action="${editando} ? @{'/acervo/localizacoes/' + ${localizacao.localCode} + '/editar'} : @{/acervo/localizacoes}"
+              th:object="${localizacao}" method="post" class="data-form">
+            <label>CÓDIGO</label>
+            <input type="text" th:field="*{localCode}" th:readonly="${editando}" required>
+
+            <label>NOME</label>
+            <input type="text" th:field="*{localName}" required>
+
+            <label>DESCRIÇÃO</label>
+            <input type="text" th:field="*{localDesc}">
+
+            <label>DEPARTAMENTO (código)</label>
+            <input type="text" th:field="*{departCode}">
+
+            <button type="submit" class="btn-submit" th:text="${editando} ? 'ATUALIZAR' : 'INCLUIR'">INCLUIR</button>
+        </form>
+    </main>
+</div>
+
+</body>
+</html>
