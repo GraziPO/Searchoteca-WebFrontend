@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${editando} ? 'Editar Departamento' : 'Novo Departamento'">Novo Departamento - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo/departamentos}" class="back-link">←</a>
+        <h1 style="color:#9B2226;" th:text="${editando} ? 'EDITAR DEPARTAMENTO' : 'NOVO DEPARTAMENTO'">NOVO DEPARTAMENTO</h1>
+
+        <form th:action="${editando} ? @{'/acervo/departamentos/' + ${departamento.departCode} + '/editar'} : @{/acervo/departamentos}"
+              th:object="${departamento}" method="post" class="data-form">
+            <label>CÓDIGO</label>
+            <input type="text" th:field="*{departCode}" th:readonly="${editando}" required>
+
+            <label>NOME</label>
+            <input type="text" th:field="*{departName}" required>
+
+            <label>DESCRIÇÃO</label>
+            <input type="text" th:field="*{departDesc}">
+
+            <button type="submit" class="btn-submit" th:text="${editando} ? 'ATUALIZAR' : 'INCLUIR'">INCLUIR</button>
+        </form>
+    </main>
+</div>
+
+</body>
+</html>
