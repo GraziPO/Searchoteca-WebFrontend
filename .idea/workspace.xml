@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="466256e6-eae6-4ccf-a6d0-0c3796483d89" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/HELP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/FrontendApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/config/RestClientConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/controller/PageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/model/Book.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/model/Department.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/model/Location.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/searchoteca/frontend/service/BackendService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/static/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/fragments/layout.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/home_acervos.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/home_depart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/home_livros.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/home_local.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/search_depart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/search_livros.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/resources/templates/search_local.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/test/java/searchoteca/frontend/FrontendApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/FrontendApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/config/RestClientConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/controller/PageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/model/Book.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/model/Department.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/model/Location.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/service/BackendService$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/service/BackendService$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/service/BackendService$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/searchoteca/frontend/service/BackendService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/static/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/fragments/layout.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/home_acervos.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/home_depart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/home_livros.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/home_local.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/search_depart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/search_livros.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/target/classes/templates/search_local.html" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "GraziPO"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/GraziPO/Searchoteca-WebFrontend.git",
+    "accountId": "1229a0f3-69b4-4584-a397-f3ab741e0daf"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3JIavjbGa5fSS76OmP97H80gELm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.FrontendApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/grazi/OneDrive/Documentos/GitHub/Searchoteca-WebFrontend",
+    "nodejs_package_manager_path": "npm",
+    "python.packages.toolwindow.project.migrated.to.right.top.v2": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="466256e6-eae6-4ccf-a6d0-0c3796483d89" name="Changes" comment="" />
+      <created>1789351269111</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1789351269111</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

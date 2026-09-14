@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Localizações - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo}" class="back-link">←</a>
+
+        <div class="content-header">
+            <h1>LOCALIZAÇÕES</h1>
+            <a th:href="@{/acervo/localizacoes/novo}" class="btn-add">+</a>
+        </div>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>CÓDIGO</th>
+                <th>NOME</th>
+                <th>DESCRIÇÃO</th>
+                <th>DEPARTAMENTO</th>
+                <th>AÇÕES</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="local : ${localizacoes}">
+                <td th:text="${local.localCode}"></td>
+                <td th:text="${local.localName}"></td>
+                <td th:text="${local.localDesc}"></td>
+                <td th:text="${local.departCode}"></td>
+                <td class="actions-cell">
+                    <a th:href="@{'/acervo/localizacoes/' + ${local.localCode} + '/editar'}" class="btn-edit">Editar</a>
+                    <form th:action="@{'/acervo/localizacoes/' + ${local.localCode} + '/excluir'}" method="post"
+                          onsubmit="return confirm('Excluir esta localização?');" class="inline-form">
+                        <button type="submit" class="btn-delete">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <tr class="empty-row" th:if="${#lists.isEmpty(localizacoes)}">
+                <td colspan="5">Nenhuma localização cadastrada ainda.</td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+
+</body>
+</html>

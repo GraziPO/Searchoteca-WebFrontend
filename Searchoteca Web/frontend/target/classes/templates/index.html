@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar(null)}"></div>
+
+    <main class="content">
+        <h1 style="color:#9B2226;">Bem-vindo à Searchoteca</h1>
+        <p>Use o menu ao lado para navegar entre acervo, usuários, empréstimos e relatórios.</p>
+        <a th:href="@{/acervo}" class="btn-submit" style="display:inline-block; text-decoration:none;">Ir para o Acervo →</a>
+    </main>
+</div>
+
+</body>
+</html>

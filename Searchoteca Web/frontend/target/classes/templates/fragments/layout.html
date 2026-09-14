@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Barra de topo. Uso: th:replace="~{fragments/layout :: topbar('Nome da Org')}" -->
+<div th:fragment="topbar(orgName)" class="topbar">
+    <span class="logo">Searchoteca</span>
+    <div class="org-badge" th:text="${orgName}">NOME-DA-ORGANIZAÇÃO</div>
+</div>
+
+<!-- Menu lateral. Uso: th:replace="~{fragments/layout :: sidebar('acervo')}" -->
+<nav th:fragment="sidebar(active)" class="sidebar">
+    <a href="#" class="sidebar-item" th:classappend="${active == 'usuarios'} ? 'active' : ''">USUÁRIOS</a>
+    <a th:href="@{/acervo}" class="sidebar-item" th:classappend="${active == 'acervo'} ? 'active' : ''">ACERVO</a>
+    <a href="#" class="sidebar-item" th:classappend="${active == 'emprestimos'} ? 'active' : ''">EMPRÉSTIMOS</a>
+    <a href="#" class="sidebar-item" th:classappend="${active == 'relatorios'} ? 'active' : ''">RELATÓRIOS</a>
+</nav>
+
+</body>
+</html>
