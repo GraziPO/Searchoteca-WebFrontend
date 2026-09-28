@@ -7,28 +7,40 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/acervo/departamentos}" class="back-link">←</a>
-        <h1 style="color:#9B2226;" th:text="${editando} ? 'EDITAR DEPARTAMENTO' : 'NOVO DEPARTAMENTO'">NOVO DEPARTAMENTO</h1>
+        <div class="page-banner">Searchoteca</div>
 
-        <form th:action="${editando} ? @{'/acervo/departamentos/' + ${departamento.departCode} + '/editar'} : @{/acervo/departamentos}"
-              th:object="${departamento}" method="post" class="data-form">
-            <label>CÓDIGO</label>
-            <input type="text" th:field="*{departCode}" th:readonly="${editando}" required>
+        <div class="breadcrumb">ACERVO / DEPARTAMENTOS</div>
+        <h1 class="page-title" th:text="${editando} ? 'Editar departamento' : 'Incluir departamento'">Incluir departamento</h1>
 
-            <label>NOME</label>
-            <input type="text" th:field="*{departName}" required>
+        <div class="form-card">
+            <form th:action="${editando} ? @{'/acervo/departamentos/' + ${departamento.departCode} + '/editar'} : @{/acervo/departamentos}"
+                  th:object="${departamento}" method="post" class="data-form">
+                <div>
+                    <label>CÓDIGO</label>
+                    <input type="text" th:field="*{departCode}" th:readonly="${editando}" required>
+                </div>
+                <div>
+                    <label>NOME</label>
+                    <input type="text" th:field="*{departName}" required>
+                </div>
+                <div class="field-full">
+                    <label>DESCRIÇÃO</label>
+                    <textarea th:field="*{departDesc}" rows="4"></textarea>
+                </div>
 
-            <label>DESCRIÇÃO</label>
-            <input type="text" th:field="*{departDesc}">
-
-            <button type="submit" class="btn-submit" th:text="${editando} ? 'ATUALIZAR' : 'INCLUIR'">INCLUIR</button>
-        </form>
+                <div class="form-actions">
+                    <a th:href="@{/acervo/departamentos}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid" th:text="${editando} ? 'ATUALIZAR' : 'Incluir'">Incluir</button>
+                </div>
+            </form>
+        </div>
     </main>
 </div>
 

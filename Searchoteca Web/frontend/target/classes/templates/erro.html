@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Não foi possível concluir - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <span class="logo">Searchoteca</span>
+        <div class="auth-subtitle" th:text="'Erro ' + ${status}">Erro</div>
+
+        <div class="auth-error" th:text="${mensagem}">Mensagem</div>
+
+        <div class="auth-footer-link">
+            <a href="javascript:history.back()">Voltar</a>
+            &nbsp;·&nbsp;
+            <a th:href="@{/acervo}">Ir para o acervo</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('usuarios')}"></div>
+
+    <main class="content">
+        <a th:href="@{/}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div class="breadcrumb">USUÁRIOS</div>
+        <div class="list-header">
+            <h1 class="page-title big">USUÁRIOS</h1>
+            <a th:href="@{/usuarios/novo}" class="btn-solid">+ Incluir usuário</a>
+        </div>
+
+        <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <input type="text" placeholder="Buscar usuários..." disabled>
+        </div>
+
+        <table class="data-table" th:if="${not #lists.isEmpty(usuarios)}">
+            <thead>
+            <tr>
+                <th>ID PERSONALIZADO</th>
+                <th>USUÁRIO</th>
+                <th>NOME COMPLETO</th>
+                <th>E-MAIL</th>
+                <th>TIPO DE ACESSO</th>
+                <th>STATUS</th>
+                <th>AÇÕES</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.customId}"></td>
+                <td th:text="${usuario.username}"></td>
+                <td th:text="${usuario.completeName}"></td>
+                <td th:text="${usuario.email}"></td>
+                <td th:text="${usuario.role_code}"></td>
+                <td>
+                    <span class="status-pill active" th:if="${usuario.status}">Ativo</span>
+                    <span class="status-pill inactive" th:unless="${usuario.status}">Inativo</span>
+                </td>
+                <td class="actions-cell">
+                    <a th:href="@{'/usuarios/' + ${usuario.username} + '/editar'}" class="btn-edit">Editar</a>
+                    <form th:if="${usuario.status}"
+                          th:action="@{'/usuarios/' + ${usuario.username} + '/desativar'}" method="post"
+                          class="inline-form">
+                        <button type="submit" class="btn-toggle">Desativar</button>
+                    </form>
+                    <form th:unless="${usuario.status}"
+                          th:action="@{'/usuarios/' + ${usuario.username} + '/ativar'}" method="post"
+                          class="inline-form">
+                        <button type="submit" class="btn-toggle">Ativar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(usuarios)}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+            </svg>
+            <div class="empty-title">Nenhum usuário cadastrado</div>
+            <div>Inclua o primeiro usuário para começar.</div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

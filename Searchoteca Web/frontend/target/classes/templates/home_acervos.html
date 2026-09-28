@@ -7,25 +7,27 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
         <div class="card-grid">
             <a th:href="@{/acervo/livros}" class="card">
                 <span>LIVROS</span>
-                <span>→</span>
+                <span class="card-arrow">→</span>
             </a>
             <a th:href="@{/acervo/departamentos}" class="card">
                 <span>DEPTOS</span>
-                <span>→</span>
+                <span class="card-arrow">→</span>
             </a>
             <a th:href="@{/acervo/localizacoes}" class="card">
                 <span>LOCALIZAÇÕES</span>
-                <span>→</span>
+                <span class="card-arrow">→</span>
             </a>
         </div>
     </main>
