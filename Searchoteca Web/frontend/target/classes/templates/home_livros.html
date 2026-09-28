@@ -7,35 +7,43 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/acervo}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
 
-        <div class="content-header">
-            <h1>LIVROS</h1>
-            <a th:href="@{/acervo/livros/novo}" class="btn-add">+</a>
+        <div class="breadcrumb">ACERVO / LIVROS</div>
+        <div class="list-header">
+            <h1 class="page-title big">LIVROS</h1>
+            <a th:href="@{/acervo/livros/novo}" class="btn-solid">+ Incluir livro</a>
         </div>
 
-        <table class="data-table">
+        <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <input type="text" placeholder="Buscar livros..." disabled>
+        </div>
+
+        <table class="data-table" th:if="${not #lists.isEmpty(livros)}">
             <thead>
             <tr>
+                <th>ISBN</th>
                 <th>TÍTULO</th>
                 <th>AUTOR</th>
-                <th>LOCAL</th>
-                <th>DEPARTAMENTO</th>
                 <th>AÇÕES</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="livro : ${livros}">
+                <td th:text="${livro.isbn}"></td>
                 <td th:text="${livro.title}"></td>
                 <td th:text="${livro.author}"></td>
-                <td th:text="${livro.localCode}"></td>
-                <td th:text="${livro.departCode}"></td>
                 <td class="actions-cell">
                     <a th:href="@{'/acervo/livros/' + ${livro.isbn} + '/editar'}" class="btn-edit">Editar</a>
                     <form th:action="@{'/acervo/livros/' + ${livro.isbn} + '/excluir'}" method="post"
@@ -44,11 +52,17 @@
                     </form>
                 </td>
             </tr>
-            <tr class="empty-row" th:if="${#lists.isEmpty(livros)}">
-                <td colspan="5">Nenhum livro cadastrado ainda.</td>
-            </tr>
             </tbody>
         </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(livros)}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <div class="empty-title">Nenhum livro cadastrado</div>
+            <div>Inclua o primeiro livro para começar.</div>
+        </div>
     </main>
 </div>
 

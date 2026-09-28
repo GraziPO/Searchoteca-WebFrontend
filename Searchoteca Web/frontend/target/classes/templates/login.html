@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Entrar - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <span class="logo">Searchoteca</span>
+        <div class="auth-subtitle">Entre com sua conta para continuar</div>
+
+        <div class="auth-error" th:if="${erro}" th:text="${erro}"></div>
+
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label>USUÁRIO</label>
+                <input type="text" name="username" required autofocus>
+            </div>
+            <div>
+                <label>SENHA</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn-solid">Entrar</button>
+        </form>
+
+        <div class="auth-footer-link">
+            <a th:href="@{/termos-de-uso}" target="_blank">Termos de Uso</a>
+            &nbsp;·&nbsp;
+            <a th:href="@{/politica-de-privacidade}" target="_blank">Política de Privacidade</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

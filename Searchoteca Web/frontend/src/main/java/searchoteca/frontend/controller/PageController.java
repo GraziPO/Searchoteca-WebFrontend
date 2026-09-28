@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import searchoteca.frontend.model.Book;
 import searchoteca.frontend.model.Department;
 import searchoteca.frontend.model.Location;
+import searchoteca.frontend.model.User;
 import searchoteca.frontend.service.BackendService;
 
 @Controller
@@ -148,5 +149,53 @@ public class PageController {
     public String deleteLocal(@PathVariable String localCode) {
         backendService.deleteLocal(localCode);
         return "redirect:/acervo/localizacoes";
+    }
+
+    /* ---------------- USUARIOS ---------------- */
+
+    @GetMapping("/usuarios")
+    public String listUsers(Model model) {
+        model.addAttribute("usuarios", backendService.listUsers());
+        return "home_usuarios";
+    }
+
+    @GetMapping("/usuarios/novo")
+    public String newUserForm(Model model) {
+        model.addAttribute("usuario", new User());
+        model.addAttribute("editando", false);
+        return "search_usuarios";
+    }
+
+    @PostMapping("/usuarios")
+    public String createUser(@ModelAttribute("usuario") User user) {
+        backendService.createUser(user);
+        return "redirect:/usuarios";
+    }
+
+    @GetMapping("/usuarios/{username}/editar")
+    public String editUserForm(@PathVariable String username, Model model) {
+        User user = backendService.getUser(username);
+        user.setPassword(null); // nunca preenche a senha de volta no formulario
+        model.addAttribute("usuario", user);
+        model.addAttribute("editando", true);
+        return "search_usuarios";
+    }
+
+    @PostMapping("/usuarios/{username}/editar")
+    public String updateUser(@PathVariable String username, @ModelAttribute("usuario") User user) {
+        backendService.updateUser(username, user);
+        return "redirect:/usuarios";
+    }
+
+    @PostMapping("/usuarios/{username}/ativar")
+    public String activateUser(@PathVariable String username) {
+        backendService.activateUser(username);
+        return "redirect:/usuarios";
+    }
+
+    @PostMapping("/usuarios/{username}/desativar")
+    public String deactivateUser(@PathVariable String username) {
+        backendService.deactivateUser(username);
+        return "redirect:/usuarios";
     }
 }

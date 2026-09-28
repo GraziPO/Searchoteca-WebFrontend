@@ -7,43 +7,52 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/acervo/livros}" class="back-link">←</a>
-        <h1 style="color:#9B2226;" th:text="${editando} ? 'EDITAR LIVRO' : 'NOVO LIVRO'">NOVO LIVRO</h1>
+        <div class="page-banner">Searchoteca</div>
 
-        <form th:action="${editando} ? @{'/acervo/livros/' + ${livro.isbn} + '/editar'} : @{/acervo/livros}"
-              th:object="${livro}" method="post" class="data-form">
-            <label>ISBN</label>
-            <input type="text" th:field="*{isbn}" th:readonly="${editando}" required>
+        <div class="breadcrumb">ACERVO / LIVROS</div>
+        <h1 class="page-title" th:text="${editando} ? 'Editar livro' : 'Incluir livro'">Incluir livro</h1>
 
-            <label>TÍTULO</label>
-            <input type="text" th:field="*{title}" required>
+        <div class="form-card">
+            <form th:action="${editando} ? @{'/acervo/livros/' + ${livro.isbn} + '/editar'} : @{/acervo/livros}"
+                  th:object="${livro}" method="post" class="data-form">
+                <div>
+                    <label>ISBN</label>
+                    <input type="text" th:field="*{isbn}" th:readonly="${editando}" required>
+                </div>
+                <div>
+                    <label>TÍTULO</label>
+                    <input type="text" th:field="*{title}" required>
+                </div>
+                <div>
+                    <label>AUTOR</label>
+                    <input type="text" th:field="*{author}" required>
+                </div>
+                <div>
+                    <label>ANO DE LANÇAMENTO</label>
+                    <input type="number" th:field="*{rel_year}">
+                </div>
+                <div>
+                    <label>EDITORA</label>
+                    <input type="text" th:field="*{publisher}">
+                </div>
+                <div>
+                    <label>GÊNERO</label>
+                    <input type="text" th:field="*{genre}">
+                </div>
 
-            <label>AUTOR</label>
-            <input type="text" th:field="*{author}" required>
-
-            <label>ANO DE LANÇAMENTO</label>
-            <input type="number" th:field="*{rel_year}">
-
-            <label>EDITORA</label>
-            <input type="text" th:field="*{publisher}">
-
-            <label>GENERO</label>
-            <input type="text" th:field="*{genre}">
-
-            <label>LOCALIZAÇÃO (código)</label>
-            <input type="text" th:field="*{localCode}">
-
-            <label>DEPARTAMENTO (código)</label>
-            <input type="text" th:field="*{departCode}">
-
-            <button type="submit" class="btn-submit" th:text="${editando} ? 'ATUALIZAR' : 'INCLUIR'">INCLUIR</button>
-        </form>
+                <div class="form-actions">
+                    <a th:href="@{/acervo/livros}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid" th:text="${editando} ? 'ATUALIZAR' : 'Incluir'">Incluir</button>
+                </div>
+            </form>
+        </div>
     </main>
 </div>
 

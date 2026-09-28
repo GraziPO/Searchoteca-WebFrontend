@@ -7,20 +7,30 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/acervo}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
 
-        <div class="content-header">
-            <h1>LOCALIZAÇÕES</h1>
-            <a th:href="@{/acervo/localizacoes/novo}" class="btn-add">+</a>
+        <div class="breadcrumb">ACERVO / LOCALIZAÇÕES</div>
+        <div class="list-header">
+            <h1 class="page-title big">LOCALIZAÇÕES</h1>
+            <a th:href="@{/acervo/localizacoes/novo}" class="btn-solid">+ Incluir localização</a>
         </div>
 
-        <table class="data-table">
+        <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <input type="text" placeholder="Buscar localizações..." disabled>
+        </div>
+
+        <table class="data-table" th:if="${not #lists.isEmpty(localizacoes)}">
             <thead>
             <tr>
                 <th>CÓDIGO</th>
@@ -44,11 +54,17 @@
                     </form>
                 </td>
             </tr>
-            <tr class="empty-row" th:if="${#lists.isEmpty(localizacoes)}">
-                <td colspan="5">Nenhuma localização cadastrada ainda.</td>
-            </tr>
             </tbody>
         </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(localizacoes)}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 21s-7-5.686-7-11a7 7 0 0 1 14 0c0 5.314-7 11-7 11z"></path>
+                <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+            <div class="empty-title">Nenhuma localização cadastrada</div>
+            <div>Inclua a primeira localização para começar.</div>
+        </div>
     </main>
 </div>
 

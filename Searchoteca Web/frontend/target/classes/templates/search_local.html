@@ -7,31 +7,44 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/acervo/localizacoes}" class="back-link">←</a>
-        <h1 style="color:#9B2226;" th:text="${editando} ? 'EDITAR LOCALIZAÇÃO' : 'NOVA LOCALIZAÇÃO'">NOVA LOCALIZAÇÃO</h1>
+        <div class="page-banner">Searchoteca</div>
 
-        <form th:action="${editando} ? @{'/acervo/localizacoes/' + ${localizacao.localCode} + '/editar'} : @{/acervo/localizacoes}"
-              th:object="${localizacao}" method="post" class="data-form">
-            <label>CÓDIGO</label>
-            <input type="text" th:field="*{localCode}" th:readonly="${editando}" required>
+        <div class="breadcrumb">ACERVO / LOCALIZAÇÕES</div>
+        <h1 class="page-title" th:text="${editando} ? 'Editar localização' : 'Incluir localização'">Incluir localização</h1>
 
-            <label>NOME</label>
-            <input type="text" th:field="*{localName}" required>
+        <div class="form-card">
+            <form th:action="${editando} ? @{'/acervo/localizacoes/' + ${localizacao.localCode} + '/editar'} : @{/acervo/localizacoes}"
+                  th:object="${localizacao}" method="post" class="data-form">
+                <div>
+                    <label>CÓDIGO</label>
+                    <input type="text" th:field="*{localCode}" th:readonly="${editando}" required>
+                </div>
+                <div>
+                    <label>NOME</label>
+                    <input type="text" th:field="*{localName}" required>
+                </div>
+                <div>
+                    <label>DEPARTAMENTO (código)</label>
+                    <input type="text" th:field="*{departCode}">
+                </div>
+                <div class="field-full">
+                    <label>DESCRIÇÃO</label>
+                    <textarea th:field="*{localDesc}" rows="4"></textarea>
+                </div>
 
-            <label>DESCRIÇÃO</label>
-            <input type="text" th:field="*{localDesc}">
-
-            <label>DEPARTAMENTO (código)</label>
-            <input type="text" th:field="*{departCode}">
-
-            <button type="submit" class="btn-submit" th:text="${editando} ? 'ATUALIZAR' : 'INCLUIR'">INCLUIR</button>
-        </form>
+                <div class="form-actions">
+                    <a th:href="@{/acervo/localizacoes}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid" th:text="${editando} ? 'ATUALIZAR' : 'Incluir'">Incluir</button>
+                </div>
+            </form>
+        </div>
     </main>
 </div>
 

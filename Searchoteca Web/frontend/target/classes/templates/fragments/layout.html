@@ -2,18 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- Barra de topo. Uso: th:replace="~{fragments/layout :: topbar('Nome da Org')}" -->
-<div th:fragment="topbar(orgName)" class="topbar">
+<!-- Barra de topo. Uso: th:replace="~{fragments/layout :: topbar}" -->
+<div th:fragment="topbar" class="topbar">
     <span class="logo">Searchoteca</span>
-    <div class="org-badge" th:text="${orgName}">NOME-DA-ORGANIZAÇÃO</div>
+    <div class="topbar-right">
+        <span class="topbar-label">PRÉVIA DA INTERFACE</span>
+        <a th:href="@{/logout}" class="avatar-btn" title="Sair">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+        </a>
+    </div>
 </div>
 
 <!-- Menu lateral. Uso: th:replace="~{fragments/layout :: sidebar('acervo')}" -->
 <nav th:fragment="sidebar(active)" class="sidebar">
-    <a href="#" class="sidebar-item" th:classappend="${active == 'usuarios'} ? 'active' : ''">USUÁRIOS</a>
-    <a th:href="@{/acervo}" class="sidebar-item" th:classappend="${active == 'acervo'} ? 'active' : ''">ACERVO</a>
-    <a href="#" class="sidebar-item" th:classappend="${active == 'emprestimos'} ? 'active' : ''">EMPRÉSTIMOS</a>
-    <a href="#" class="sidebar-item" th:classappend="${active == 'relatorios'} ? 'active' : ''">RELATÓRIOS</a>
+    <a th:href="@{/usuarios}" class="sidebar-item" th:classappend="${active == 'usuarios'} ? 'active' : ''">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        USUÁRIOS
+    </a>
+    <a th:href="@{/acervo}" class="sidebar-item" th:classappend="${active == 'acervo'} ? 'active' : ''">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        ACERVO
+    </a>
+    <a href="#" class="sidebar-item" th:classappend="${active == 'emprestimos'} ? 'active' : ''">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        EMPRÉSTIMOS
+    </a>
+    <a href="#" class="sidebar-item" th:classappend="${active == 'relatorios'} ? 'active' : ''">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+            <path d="M8 21h8M12 17v4"></path>
+        </svg>
+        RELATÓRIOS
+    </a>
 </nav>
 
 </body>

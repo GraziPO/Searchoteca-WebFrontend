@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--
+  Converte em HTML o Markdown dos elementos .markdown.
+  O Thymeleaf injeta o texto com th:text (escapado); o marked transforma no navegador.
+  Se o script não carregar (sem internet), o texto continua legível como texto puro.
+-->
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script>
+        if (window.marked) {
+            document.querySelectorAll('.markdown').forEach(function (el) {
+                el.innerHTML = marked.parse(el.textContent);
+                el.classList.add('rendered');
+            });
+        }
+    </script>
+</th:block>
+</body>
+</html>

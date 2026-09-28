@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${editando} ? 'Editar Usuário' : 'Novo Usuário'">Novo Usuário - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('usuarios')}"></div>
+
+    <main class="content">
+        <a th:href="@{/usuarios}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div class="breadcrumb">USUÁRIOS</div>
+        <h1 class="page-title" th:text="${editando} ? 'Editar usuário' : 'Incluir usuário'">Incluir usuário</h1>
+
+        <div class="form-card">
+            <form th:action="${editando} ? @{'/usuarios/' + ${usuario.username} + '/editar'} : @{/usuarios}"
+                  th:object="${usuario}" method="post" class="data-form">
+                <div>
+                    <label>ID PERSONALIZADO</label>
+                    <input type="text" th:field="*{customId}" required>
+                </div>
+                <div>
+                    <label>NOME DE USUÁRIO</label>
+                    <input type="text" th:field="*{username}" th:readonly="${editando}" required>
+                </div>
+                <div>
+                    <label>NOME COMPLETO</label>
+                    <input type="text" th:field="*{completeName}" required>
+                </div>
+                <div>
+                    <label>E-MAIL</label>
+                    <input type="email" th:field="*{email}" required>
+                </div>
+                <div>
+                    <label>TIPO DE ACESSO</label>
+                    <input type="text" th:field="*{role_code}" placeholder="ex: ADMIN, BIBLIOTECARIO" required>
+                </div>
+                <div>
+                    <label th:text="${editando} ? 'NOVA SENHA (opcional)' : 'SENHA'">SENHA</label>
+                    <input type="password" th:field="*{password}" th:required="${!editando}">
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{/usuarios}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid" th:text="${editando} ? 'ATUALIZAR' : 'Incluir'">Incluir</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
