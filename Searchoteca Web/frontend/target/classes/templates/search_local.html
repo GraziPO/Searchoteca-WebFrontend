@@ -31,8 +31,12 @@
                     <input type="text" th:field="*{localName}" required>
                 </div>
                 <div>
-                    <label>DEPARTAMENTO (código)</label>
-                    <input type="text" th:field="*{departCode}">
+                    <label>DEPARTAMENTO</label>
+                    <select th:field="*{departCode}" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="d : ${departamentos}" th:value="${d.departCode}"
+                                th:text="${d.departCode + ' — ' + d.departName}">LOC09 — Livros Aa–Ac</option>
+                    </select>
                 </div>
                 <div class="field-full">
                     <label>DESCRIÇÃO</label>

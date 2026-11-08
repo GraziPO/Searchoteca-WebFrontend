@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Usuários - Searchoteca</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -13,8 +14,9 @@
     <div th:replace="~{fragments/layout :: sidebar('usuarios')}"></div>
 
     <main class="content">
-        <a th:href="@{/}" class="back-link">←</a>
         <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
 
         <div class="breadcrumb">USUÁRIOS</div>
         <div class="list-header">
@@ -27,17 +29,17 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="M21 21l-4.35-4.35"></path>
             </svg>
-            <input type="text" placeholder="Buscar usuários..." disabled>
+            <input type="text" placeholder="Filtrar por nome, usuário, e-mail ou perfil..." data-filter-table="tabela-usuarios" disabled>
         </div>
 
-        <table class="data-table" th:if="${not #lists.isEmpty(usuarios)}">
+        <table id="tabela-usuarios" class="data-table" th:if="${not #lists.isEmpty(usuarios)}">
             <thead>
             <tr>
                 <th>ID PERSONALIZADO</th>
                 <th>USUÁRIO</th>
                 <th>NOME COMPLETO</th>
                 <th>E-MAIL</th>
-                <th>TIPO DE ACESSO</th>
+                <th>PERFIL</th>
                 <th>STATUS</th>
                 <th>AÇÕES</th>
             </tr>
@@ -48,7 +50,7 @@
                 <td th:text="${usuario.username}"></td>
                 <td th:text="${usuario.completeName}"></td>
                 <td th:text="${usuario.email}"></td>
-                <td th:text="${usuario.role_code}"></td>
+                <td th:text="${roleLabels[usuario.role_code] ?: usuario.role_code}"></td>
                 <td>
                     <span class="status-pill active" th:if="${usuario.status}">Ativo</span>
                     <span class="status-pill inactive" th:unless="${usuario.status}">Inativo</span>
@@ -57,6 +59,7 @@
                     <a th:href="@{'/usuarios/' + ${usuario.username} + '/editar'}" class="btn-edit">Editar</a>
                     <form th:if="${usuario.status}"
                           th:action="@{'/usuarios/' + ${usuario.username} + '/desativar'}" method="post"
+                          onsubmit="return confirm('Desativar este usuário? Ele não conseguirá mais entrar.');"
                           class="inline-form">
                         <button type="submit" class="btn-toggle">Desativar</button>
                     </form>
@@ -81,5 +84,6 @@
     </main>
 </div>
 
+<script th:src="@{/js/table-filter.js}"></script>
 </body>
 </html>

@@ -16,10 +16,12 @@
         <a th:href="@{/acervo}" class="back-link">←</a>
         <div class="page-banner">Searchoteca</div>
 
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
         <div class="breadcrumb">ACERVO / LOCALIZAÇÕES</div>
         <div class="list-header">
             <h1 class="page-title big">LOCALIZAÇÕES</h1>
-            <a th:href="@{/acervo/localizacoes/novo}" class="btn-solid">+ Incluir localização</a>
+            <a th:href="@{/acervo/localizacoes/novo}" class="btn-solid" th:if="${nav.manageArchive()}">+ Incluir localização</a>
         </div>
 
         <div class="search-box">
@@ -27,17 +29,17 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="M21 21l-4.35-4.35"></path>
             </svg>
-            <input type="text" placeholder="Buscar localizações..." disabled>
+            <input type="text" placeholder="Buscar localizações..." data-filter-table="tabela-localizacoes" disabled>
         </div>
 
-        <table class="data-table" th:if="${not #lists.isEmpty(localizacoes)}">
+        <table id="tabela-localizacoes" class="data-table" th:if="${not #lists.isEmpty(localizacoes)}">
             <thead>
             <tr>
                 <th>CÓDIGO</th>
                 <th>NOME</th>
                 <th>DESCRIÇÃO</th>
                 <th>DEPARTAMENTO</th>
-                <th>AÇÕES</th>
+                <th th:if="${nav.manageArchive()}">AÇÕES</th>
             </tr>
             </thead>
             <tbody>
@@ -46,7 +48,7 @@
                 <td th:text="${local.localName}"></td>
                 <td th:text="${local.localDesc}"></td>
                 <td th:text="${local.departCode}"></td>
-                <td class="actions-cell">
+                <td class="actions-cell" th:if="${nav.manageArchive()}">
                     <a th:href="@{'/acervo/localizacoes/' + ${local.localCode} + '/editar'}" class="btn-edit">Editar</a>
                     <form th:action="@{'/acervo/localizacoes/' + ${local.localCode} + '/excluir'}" method="post"
                           onsubmit="return confirm('Excluir esta localização?');" class="inline-form">
@@ -68,5 +70,6 @@
     </main>
 </div>
 
+<script th:src="@{/js/table-filter.js}"></script>
 </body>
 </html>

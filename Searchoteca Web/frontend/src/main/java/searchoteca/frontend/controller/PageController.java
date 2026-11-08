@@ -6,11 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import searchoteca.frontend.config.BackendMessages;
+import searchoteca.frontend.dto.users.StudentRequest;
 import searchoteca.frontend.model.Book;
 import searchoteca.frontend.model.Department;
 import searchoteca.frontend.model.Location;
 import searchoteca.frontend.model.User;
 import searchoteca.frontend.service.BackendService;
+
+import java.math.BigDecimal;
 
 @Controller
 public class PageController {
@@ -19,11 +26,6 @@ public class PageController {
 
     public PageController(BackendService backendService) {
         this.backendService = backendService;
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index";
     }
 
     @GetMapping("/acervo")
@@ -63,6 +65,22 @@ public class PageController {
     public String updateBook(@PathVariable String isbn, @ModelAttribute("livro") Book book) {
         backendService.updateBook(isbn, book);
         return "redirect:/acervo/livros";
+    }
+
+    /** Preço de venda: formulário separado na tela de edição, visível só para o root. */
+    @PostMapping("/acervo/livros/{isbn}/preco")
+    public String updateBookPrice(@PathVariable String isbn,
+                                  @RequestParam(required = false) BigDecimal salePrice,
+                                  RedirectAttributes redirectAttributes) {
+        try {
+            backendService.updateBookPrice(isbn, salePrice);
+            redirectAttributes.addFlashAttribute("info", salePrice == null
+                    ? "Preço removido."
+                    : "Preço atualizado para R$ " + salePrice.setScale(2, java.math.RoundingMode.HALF_UP) + ".");
+        } catch (RestClientException ex) {
+            redirectAttributes.addFlashAttribute("erro", BackendMessages.forForm(ex, "Não foi possível alterar o preço."));
+        }
+        return "redirect:/acervo/livros/" + isbn + "/editar";
     }
 
     @PostMapping("/acervo/livros/{isbn}/excluir")
@@ -123,6 +141,7 @@ public class PageController {
     public String newLocalForm(Model model) {
         model.addAttribute("localizacao", new Location());
         model.addAttribute("editando", false);
+        model.addAttribute("departamentos", backendService.listDepart());
         return "search_local";
     }
 
@@ -136,6 +155,7 @@ public class PageController {
     public String editLocalForm(@PathVariable String localCode, Model model) {
         model.addAttribute("localizacao", backendService.getLocal(localCode));
         model.addAttribute("editando", true);
+        model.addAttribute("departamentos", backendService.listDepart());
         return "search_local";
     }
 
@@ -185,6 +205,34 @@ public class PageController {
     public String updateUser(@PathVariable String username, @ModelAttribute("usuario") User user) {
         backendService.updateUser(username, user);
         return "redirect:/usuarios";
+    }
+
+    /* ---------------- ALUNOS ---------------- */
+
+    @GetMapping("/alunos/novo")
+    public String newStudentForm() {
+        return "search_alunos";
+    }
+
+    @PostMapping("/alunos")
+    public String createStudent(@RequestParam String username,
+                                @RequestParam String completeName,
+                                @RequestParam String email,
+                                @RequestParam String password,
+                                @RequestParam String ra,
+                                @RequestParam(required = false) String phone,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            backendService.createStudent(new StudentRequest(username, completeName, email, password, ra, phone));
+            redirectAttributes.addFlashAttribute("info",
+                    "Aluno " + completeName + " cadastrado. No primeiro acesso, ele vai precisar trocar a senha.");
+            return "redirect:/alunos/novo";
+        } catch (RestClientException ex) {
+            redirectAttributes.addFlashAttribute("erro", BackendMessages.forForm(ex, "Não foi possível cadastrar o aluno."));
+            redirectAttributes.addFlashAttribute("aluno",
+                    new StudentRequest(username, completeName, email, null, ra, phone));
+            return "redirect:/alunos/novo";
+        }
     }
 
     @PostMapping("/usuarios/{username}/ativar")

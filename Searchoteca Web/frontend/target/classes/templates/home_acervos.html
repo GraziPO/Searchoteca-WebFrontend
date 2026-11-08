@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Acervo - Searchoteca</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -13,7 +14,6 @@
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
-        <a th:href="@{/}" class="back-link">←</a>
         <div class="page-banner">Searchoteca</div>
 
         <div class="card-grid">
@@ -30,6 +30,24 @@
                 <span class="card-arrow">→</span>
             </a>
         </div>
+
+        <th:block th:if="${nav.manageArchive()}">
+            <h2 class="section-title">Exemplares</h2>
+            <div class="card-grid">
+                <a th:href="@{/acervo/exemplares/novo}" class="card secondary">
+                    <span>ENTRADA DE EXEMPLARES</span>
+                    <span class="card-sub">Cadastra cópias de um livro numa localização e gera as etiquetas</span>
+                </a>
+                <a th:href="@{/acervo/exemplares/movimentacao}" class="card secondary">
+                    <span>MOVIMENTAÇÃO EM LOTE</span>
+                    <span class="card-sub">Lê vários exemplares e move todos para outra prateleira</span>
+                </a>
+                <a th:href="@{/acervo/exemplares/etiquetas}" class="card secondary">
+                    <span>REIMPRIMIR ETIQUETAS</span>
+                    <span class="card-sub">Gera de novo as etiquetas a partir dos IDs dos exemplares</span>
+                </a>
+            </div>
+        </th:block>
     </main>
 </div>
 

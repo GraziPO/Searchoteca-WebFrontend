@@ -11,8 +11,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginRequiredInterceptor())
                 .excludePathPatterns(
-                        "/", "/login", "/mfa", "/mfa/verify", "/mfa/resend", "/logout",
+                        "/",   // decide no controller: logado vai para a página inicial do perfil, senão para o login
+                        // login em etapas
+                        "/login", "/mfa", "/mfa/verify", "/mfa/resend", "/logout",
                         "/termos", "/termos/aceitar", "/termos-de-uso", "/politica-de-privacidade",
+                        "/primeiro-acesso",
+                        // recuperação de senha
+                        "/esqueci-senha", "/redefinir-senha",
+                        // consulta pública ao acervo (RF18 / consulta sem login)
+                        "/consulta", "/consulta/**",
+                        // arquivos estáticos
                         "/css/**", "/js/**", "/images/**", "/favicon.ico"
                 );
     }

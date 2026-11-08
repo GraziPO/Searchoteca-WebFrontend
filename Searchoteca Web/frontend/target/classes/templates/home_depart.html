@@ -16,10 +16,12 @@
         <a th:href="@{/acervo}" class="back-link">←</a>
         <div class="page-banner">Searchoteca</div>
 
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
         <div class="breadcrumb">ACERVO / DEPARTAMENTOS</div>
         <div class="list-header">
             <h1 class="page-title big">DEPARTAMENTOS</h1>
-            <a th:href="@{/acervo/departamentos/novo}" class="btn-solid">+ Incluir departamento</a>
+            <a th:href="@{/acervo/departamentos/novo}" class="btn-solid" th:if="${nav.manageArchive()}">+ Incluir departamento</a>
         </div>
 
         <div class="search-box">
@@ -27,16 +29,16 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="M21 21l-4.35-4.35"></path>
             </svg>
-            <input type="text" placeholder="Buscar departamentos..." disabled>
+            <input type="text" placeholder="Buscar departamentos..." data-filter-table="tabela-departamentos" disabled>
         </div>
 
-        <table class="data-table" th:if="${not #lists.isEmpty(departamentos)}">
+        <table id="tabela-departamentos" class="data-table" th:if="${not #lists.isEmpty(departamentos)}">
             <thead>
             <tr>
                 <th>CÓDIGO</th>
                 <th>NOME</th>
                 <th>DESCRIÇÃO</th>
-                <th>AÇÕES</th>
+                <th th:if="${nav.manageArchive()}">AÇÕES</th>
             </tr>
             </thead>
             <tbody>
@@ -44,7 +46,7 @@
                 <td th:text="${depart.departCode}"></td>
                 <td th:text="${depart.departName}"></td>
                 <td th:text="${depart.departDesc}"></td>
-                <td class="actions-cell">
+                <td class="actions-cell" th:if="${nav.manageArchive()}">
                     <a th:href="@{'/acervo/departamentos/' + ${depart.departCode} + '/editar'}" class="btn-edit">Editar</a>
                     <form th:action="@{'/acervo/departamentos/' + ${depart.departCode} + '/excluir'}" method="post"
                           onsubmit="return confirm('Excluir este departamento?');" class="inline-form">
@@ -66,5 +68,6 @@
     </main>
 </div>
 
+<script th:src="@{/js/table-filter.js}"></script>
 </body>
 </html>
