@@ -38,6 +38,16 @@
         </a>
     </th:block>
 
+    <a th:if="${nav.dashboard()}" th:href="@{/dashboard}" class="sidebar-item" th:classappend="${active == 'dashboard'} ? 'active' : ''">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+            <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+            <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+        </svg>
+        DASHBOARD
+    </a>
+
     <a th:if="${nav.users()}" th:href="@{/usuarios}" class="sidebar-item" th:classappend="${active == 'usuarios'} ? 'active' : ''">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>

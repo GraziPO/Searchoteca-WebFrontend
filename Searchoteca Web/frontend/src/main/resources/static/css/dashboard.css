@@ -62,10 +62,31 @@
 .dash .info-box-number { font-size: 20px; }
 .dash .info-box-number small { color: var(--color-text-muted); font-weight: 500; font-size: 13px; }
 
-/* ---------- cards ---------- */
-.dash .card { margin: 0; height: 100%; border-radius: 10px; border-color: var(--color-border); }
+/* ---------- cards ----------
+   O style.css do sistema já tem um .card (os blocos vermelhos de 280x190 dos menus).
+   Aqui ele é zerado, para o .card do AdminLTE funcionar dentro do dashboard. */
+.dash .card {
+    width: auto;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: #fff;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+}
+.dash .card:hover { filter: none; }
+.dash .card-body { flex: 1 1 auto; }
 .dash .card-accent { border-top: 3px solid var(--color-accent); }
 .dash .card-header { background: #fff; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.dash .card-header::after { display: none; } /* clearfix do AdminLTE viraria um 3º item do flex */
 .dash .card-title { margin: 0; font-size: 16px; font-weight: 600; font-family: var(--font-sans); }
 .dash .card-header a { font-size: 13px; font-weight: 600; }
 

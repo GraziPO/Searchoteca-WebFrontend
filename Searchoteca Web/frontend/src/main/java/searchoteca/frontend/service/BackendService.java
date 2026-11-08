@@ -10,6 +10,7 @@ import searchoteca.frontend.dto.archive.CopyLabel;
 import searchoteca.frontend.dto.archive.CopyRequest;
 import searchoteca.frontend.dto.archive.PriceRequest;
 import searchoteca.frontend.dto.auth.ChangePasswordRequest;
+import searchoteca.frontend.dto.dashboard.DashboardData;
 import searchoteca.frontend.dto.users.StudentRequest;
 import searchoteca.frontend.model.Book;
 import searchoteca.frontend.model.Department;
@@ -262,5 +263,15 @@ public class BackendService {
                 })
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<AuditLog>>() {});
+    }
+
+    // ---------------- DASHBOARD ----------------
+
+    /** GET /api/dashboard?dias=N — exige dashboard:view (403 para quem não tem). */
+    public DashboardData dashboard(int days) {
+        return restClient.get()
+                .uri(uri -> uri.path("/api/dashboard").queryParam("dias", days).build())
+                .retrieve()
+                .body(DashboardData.class);
     }
 }

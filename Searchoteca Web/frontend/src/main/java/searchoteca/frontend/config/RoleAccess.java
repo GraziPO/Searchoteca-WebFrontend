@@ -16,7 +16,8 @@ public record RoleAccess(String role,
                          boolean exits,          // exits:create e receipts:view
                          boolean audit,          // audit:view
                          boolean editPrice,      // org_books:edit_price
-                         boolean student) {      // loans:view_own
+                         boolean student,        // loans:view_own
+                         boolean dashboard) {    // dashboard:view
 
     public static RoleAccess of(String role) {
         String r = role == null ? "" : role;
@@ -29,7 +30,8 @@ public record RoleAccess(String role,
                 root || r.equals("loan_op"),
                 root,
                 root,
-                r.equals("students"));
+                r.equals("students"),
+                root);
     }
 
     public boolean isRoot() {
@@ -38,6 +40,7 @@ public record RoleAccess(String role,
 
     /** Página inicial depois do login. */
     public String homePath() {
+        if (dashboard) return "/dashboard";
         if (student) return "/meus-emprestimos";
         if (role.equals("loan_op")) return "/emprestimos";
         if (role.equals("admin_users")) return "/usuarios";
