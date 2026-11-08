@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registrar saída - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('saidas')}"></div>
+
+    <main class="content">
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">SAÍDAS E COMPROVANTES</div>
+        <div class="list-header">
+            <h1 class="page-title big">REGISTRAR SAÍDA</h1>
+            <a th:href="@{/comprovantes}" class="btn-outline">Consultar comprovante</a>
+        </div>
+        <p class="page-intro">
+            Venda, doação e baixa tiram o exemplar do acervo de vez. Para emprestar, use a tela de
+            <a th:href="@{/emprestimos/novo}">Empréstimos</a>. Toda saída gera um comprovante com código próprio.
+        </p>
+
+        <div class="form-card">
+            <form th:action="@{/saidas}" method="post" class="data-form">
+                <div>
+                    <label>TIPO DE SAÍDA</label>
+                    <select name="type" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="t : ${tipos}" th:value="${t.key}" th:text="${t.value}"
+                                th:selected="${t.key == type}">Venda</option>
+                    </select>
+                    <div class="hint">Na venda, o preço vem do cadastro do livro e não pode ser alterado aqui.</div>
+                </div>
+                <div></div>
+                <div class="field-full">
+                    <label>IDS DOS EXEMPLARES</label>
+                    <textarea name="copyIds" class="scan-area" rows="5" required th:text="${copyIds}"
+                              data-scan-count="contador" placeholder="Um ID por linha"></textarea>
+                    <div id="contador" class="scan-counter"></div>
+                </div>
+                <div class="field-full">
+                    <label>OBSERVAÇÕES</label>
+                    <textarea name="notes" rows="3" th:text="${notes}"
+                              placeholder="Obrigatório na baixa: informe o motivo (ex.: danificado, extraviado)"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-solid"
+                            onclick="return confirm('Confirmar a saída? Os exemplares deixam o acervo.');">Registrar saída</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/scanner.js}"></script>
+</body>
+</html>

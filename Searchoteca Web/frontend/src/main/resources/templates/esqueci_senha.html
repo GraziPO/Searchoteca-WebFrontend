@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Esqueci a senha - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <span class="logo">Searchoteca</span>
+        <div class="auth-subtitle">
+            Informe seu usuário ou e-mail. Enviaremos um código para redefinir a senha.
+        </div>
+
+        <div class="auth-error" th:if="${erro}" th:text="${erro}"></div>
+
+        <form th:action="@{/esqueci-senha}" method="post">
+            <div>
+                <label>USUÁRIO OU E-MAIL</label>
+                <input type="text" name="login" required autofocus autocomplete="username">
+            </div>
+            <button type="submit" class="btn-solid">Enviar código</button>
+        </form>
+
+        <div class="auth-footer-link">
+            <a th:href="@{/redefinir-senha}">Já tenho um código</a>
+            &nbsp;·&nbsp;
+            <a th:href="@{/login}">Voltar ao login</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

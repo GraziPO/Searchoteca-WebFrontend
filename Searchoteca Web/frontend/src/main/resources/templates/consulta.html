@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consultar acervo - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<!-- Logado: com o menu lateral. Visitante: página aberta, sem menu. -->
+<div th:class="${currentUser} ? 'page-wrapper' : ''">
+    <th:block th:if="${currentUser}">
+        <div th:replace="~{fragments/layout :: sidebar('consulta')}"></div>
+    </th:block>
+
+    <main th:class="${currentUser} ? 'content' : 'public-content'">
+        <div class="page-banner">Consultar acervo</div>
+
+        <form th:action="@{/consulta}" method="get" class="toolbar">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                <input type="text" name="q" th:value="${q}" placeholder="Título, autor, editora ou gênero" autofocus>
+            </div>
+            <button type="submit" class="btn-solid">Buscar</button>
+        </form>
+
+        <p class="muted" th:if="${resultado.totalElements() > 0}"
+           th:text="${resultado.totalElements() == 1} ? '1 livro encontrado' : ${resultado.totalElements() + ' livros encontrados'}">
+            20 livros encontrados</p>
+
+        <table class="data-table" th:if="${not #lists.isEmpty(resultado.content())}">
+            <thead>
+            <tr>
+                <th>TÍTULO</th>
+                <th>AUTOR</th>
+                <th>GÊNERO</th>
+                <th>DISPONIBILIDADE</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${resultado.content()}">
+                <td th:text="${b.title()}"></td>
+                <td th:text="${b.author()}"></td>
+                <td th:text="${b.genre()}"></td>
+                <td>
+                    <span class="availability yes" th:if="${b.availableCopies() > 0}"
+                          th:text="${b.availableCopies() == 1} ? '1 disponível' : ${b.availableCopies() + ' disponíveis'}">2 disponíveis</span>
+                    <span class="availability no" th:if="${b.availableCopies() == 0 and b.totalCopies() > 0}">Todos emprestados</span>
+                    <span class="muted" th:if="${b.totalCopies() == 0}">Sem exemplares</span>
+                </td>
+                <td><a th:href="@{'/consulta/' + ${b.isbn()}(q=${q})}" class="btn-edit">Ver onde está</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(resultado.content())}">
+            <div class="empty-title" th:text="${#strings.isEmpty(q)} ? 'O acervo ainda está vazio' : 'Nenhum livro encontrado'">Nenhum livro encontrado</div>
+            <div th:unless="${#strings.isEmpty(q)}">Tente outro termo, ou busque só por uma parte do título.</div>
+        </div>
+
+        <div class="pagination" th:if="${resultado.totalPages() > 1}">
+            <a th:if="${resultado.hasPrevious()}" th:href="@{/consulta(q=${q},page=${resultado.page() - 1})}" class="btn-outline btn-small">← Anterior</a>
+            <span th:text="${'Página ' + (resultado.page() + 1) + ' de ' + resultado.totalPages()}">Página 1 de 3</span>
+            <a th:if="${resultado.hasNext()}" th:href="@{/consulta(q=${q},page=${resultado.page() + 1})}" class="btn-outline btn-small">Próxima →</a>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

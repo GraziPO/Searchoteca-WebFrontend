@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reimprimir etiquetas - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">ACERVO / EXEMPLARES</div>
+        <h1 class="page-title">Reimprimir etiquetas</h1>
+        <p class="page-intro">
+            Informe os IDs dos exemplares, um por linha ou separados por vírgula.
+            O ID aparece em cada etiqueta, ao lado da localização.
+        </p>
+
+        <div class="form-card">
+            <form th:action="@{/acervo/exemplares/etiquetas}" method="get" class="data-form">
+                <div class="field-full">
+                    <label>IDS DOS EXEMPLARES</label>
+                    <textarea name="ids" class="scan-area" rows="6" required th:text="${ids}"
+                              placeholder="12&#10;13&#10;14" data-scan-count="contador"></textarea>
+                    <div id="contador" class="scan-counter"></div>
+                </div>
+                <div class="form-actions">
+                    <a th:href="@{/acervo}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid">Gerar etiquetas</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/scanner.js}"></script>
+</body>
+</html>

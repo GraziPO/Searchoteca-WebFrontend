@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Etiquetas - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb no-print">ACERVO / EXEMPLARES / ETIQUETAS</div>
+        <div class="list-header no-print">
+            <h1 class="page-title" th:text="${titulo}">Etiquetas</h1>
+            <button type="button" class="btn-solid" onclick="window.print()"
+                    th:if="${not #lists.isEmpty(etiquetas)}">Imprimir etiquetas</button>
+        </div>
+
+        <!-- Resultado da movimentação: exemplares que já estavam na localização de destino -->
+        <div class="panel no-print"
+             th:if="${resultado != null and not #lists.isEmpty(resultado.alreadyInLocation())}">
+            <h2>Já estavam nesta localização</h2>
+            <p class="mono" th:text="${#strings.listJoin(resultado.alreadyInLocation(), ', ')}">códigos</p>
+        </div>
+
+        <div class="label-sheet" th:if="${not #lists.isEmpty(etiquetas)}">
+            <div class="label" th:each="e : ${etiquetas}">
+                <div class="label-title" th:text="${e.title()}" th:title="${e.title()}">Título</div>
+                <div class="label-meta"
+                     th:text="${'ID ' + e.copyId() + ' · ' + e.departCode() + ' / ' + e.localCode()}">ID · DEPTO / LOCAL</div>
+                <svg class="barcode" th:attr="data-code=${e.code()}"></svg>
+                <div class="label-code" th:text="${e.code()}">código</div>
+            </div>
+        </div>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(etiquetas)}">
+            <div class="empty-title">Nenhuma etiqueta para imprimir</div>
+        </div>
+
+        <div class="form-actions no-print" style="justify-content:flex-start; margin-top:24px;">
+            <a th:href="@{/acervo/exemplares/novo}" class="btn-outline">Nova entrada</a>
+            <a th:href="@{/acervo/exemplares/movimentacao}" class="btn-outline">Movimentar exemplares</a>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script th:src="@{/js/barcode.js}"></script>
+</body>
+</html>

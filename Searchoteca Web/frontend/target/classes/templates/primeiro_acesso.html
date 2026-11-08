@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Primeiro acesso - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <span class="logo">Searchoteca</span>
+        <div class="auth-subtitle">
+            Este é o seu primeiro acesso. Crie uma senha só sua para continuar.
+        </div>
+
+        <div class="auth-error" th:if="${erro}" th:text="${erro}"></div>
+
+        <form th:action="@{/primeiro-acesso}" method="post">
+            <div>
+                <label>NOVA SENHA</label>
+                <input type="password" name="newPassword" required minlength="8" maxlength="72"
+                       autocomplete="new-password" autofocus>
+                <div class="hint" th:text="${dica}">A senha deve ter ao menos 8 caracteres.</div>
+            </div>
+            <div>
+                <label>CONFIRME A NOVA SENHA</label>
+                <input type="password" name="confirmPassword" required minlength="8" maxlength="72"
+                       autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn-solid">Salvar e entrar</button>
+        </form>
+
+        <div class="auth-footer-link">
+            <a th:href="@{/logout}">Cancelar e sair</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
