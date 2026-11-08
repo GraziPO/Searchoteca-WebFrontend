@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Searchoteca</title>
+    <!-- AdminLTE primeiro, para o style.css do sistema ter a palavra final no layout geral -->
+    <link rel="stylesheet" th:href="@{/vendor/adminlte/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('dashboard')}"></div>
+
+    <main class="content dash">
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <!-- ================= cabeçalho ================= -->
+        <div class="dash-header">
+            <div>
+                <div class="breadcrumb">GESTÃO</div>
+                <h1 class="page-title big">DASHBOARD</h1>
+                <p class="dash-updated">
+                    Visão geral da organização · atualizado às
+                    <span th:text="${#temporals.format(d.generatedAt(), 'HH:mm')}">21:30</span>
+                </p>
+            </div>
+            <nav class="dash-period" aria-label="Período">
+                <a th:each="p : ${periods}"
+                   th:href="@{/dashboard(dias=${p})}"
+                   th:classappend="${p == period} ? 'active' : ''"
+                   th:attr="aria-current=${p == period} ? 'page' : null"
+                   th:text="${p == 365} ? 'Último ano' : ('Últimos ' + ${p} + ' dias')">Últimos 30 dias</a>
+            </nav>
+        </div>
+
+        <!-- ================= caixas do topo ================= -->
+        <div class="row g-3 mb-3">
+            <div class="col-sm-6 col-xl-3">
+                <div class="small-box sb-wine">
+                    <div class="inner">
+                        <h3 th:text="${#numbers.formatInteger(k.openLoans(), 1, 'POINT')}">0</h3>
+                        <p>Empréstimos em aberto</p>
+                    </div>
+                    <svg class="small-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M17 3l4 4-4 4"></path><path d="M3 7h18"></path><path d="M7 21l-4-4 4-4"></path><path d="M21 17H3"></path>
+                    </svg>
+                    <a th:href="@{/emprestimos}" class="small-box-footer">Ver empréstimos →</a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="small-box sb-rust">
+                    <div class="inner">
+                        <h3 th:text="${#numbers.formatInteger(k.delayedLoans(), 1, 'POINT')}">0</h3>
+                        <p>Empréstimos atrasados</p>
+                    </div>
+                    <svg class="small-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2"></path>
+                    </svg>
+                    <a href="#atrasados" class="small-box-footer">Ver atrasados →</a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="small-box sb-blue">
+                    <div class="inner">
+                        <h3 th:text="${#numbers.formatInteger(k.activeStudents(), 1, 'POINT')}">0</h3>
+                        <p>Alunos ativos</p>
+                    </div>
+                    <svg class="small-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 2 9 2 12 0v-5"></path>
+                    </svg>
+                    <a th:href="@{/usuarios}" class="small-box-footer">Ver usuários →</a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="small-box sb-slate">
+                    <div class="inner">
+                        <h3 th:text="${#numbers.formatInteger(k.movementsInPeriod(), 1, 'POINT')}">0</h3>
+                        <p th:text="'Movimentações em ' + ${period} + ' dias'">Movimentações</p>
+                    </div>
+                    <svg class="small-box-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M21 8 12 3 3 8v8l9 5 9-5z"></path><path d="M3 8l9 5 9-5"></path><path d="M12 13v8"></path>
+                    </svg>
+                    <a th:href="@{/relatorios/auditoria}" class="small-box-footer">Trilha de auditoria →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-sm-6 col-xl-3">
+                <div class="info-box">
+                    <span class="info-box-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2"></path></svg>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Exemplares disponíveis</span>
+                        <span class="info-box-number">
+                            <span th:text="${#numbers.formatInteger(k.availableCopies(), 1, 'POINT')}">0</span>
+                            <small th:text="'de ' + ${#numbers.formatInteger(k.totalCopies(), 1, 'POINT')}">de 0</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="info-box">
+                    <span class="info-box-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Vendas no mês</span>
+                        <span class="info-box-number" th:text="'R$ ' + ${#numbers.formatDecimal(k.sales(), 1, 'POINT', 2, 'COMMA')}">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="info-box">
+                    <span class="info-box-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6"></path><path d="M9 12h6"></path></svg>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Comprovantes no mês</span>
+                        <span class="info-box-number" th:text="${#numbers.formatInteger(k.receiptsThisMonth(), 1, 'POINT')}">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="info-box">
+                    <span class="info-box-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Trocas de 1º acesso pendentes</span>
+                        <span class="info-box-number" th:text="${#numbers.formatInteger(k.pendingFirstAccess(), 1, 'POINT')}">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= gráficos ================= -->
+        <div class="row g-3 mb-3">
+            <div class="col-lg-8">
+                <div class="card card-accent">
+                    <div class="card-header">
+                        <h2 class="card-title">Empréstimos × devoluções por dia</h2>
+                        <div class="legend">
+                            <span><span class="ln"></span><span th:text="'Empréstimos (' + ${line.totalLoans()} + ')'">Empréstimos</span></span>
+                            <span><span class="ln ln-dash"></span><span th:text="'Devoluções (' + ${line.totalReturns()} + ')'">Devoluções</span></span>
+                        </div>
+                    </div>
+                    <div class="card-body chart">
+                        <div class="dash-empty" th:if="${line.empty()}">Nenhum empréstimo ou devolução no período.</div>
+                        <svg th:unless="${line.empty()}" viewBox="0 0 640 220" role="img"
+                             th:attr="aria-label='Gráfico de linhas: ' + ${line.totalLoans()} + ' empréstimos e ' + ${line.totalReturns()} + ' devoluções em ' + ${period} + ' dias'">
+                            <g stroke="#EADAD3" stroke-width="1">
+                                <line th:each="t : ${line.ticks()}" x1="36" x2="632" th:attr="y1=${t.y()},y2=${t.y()}"></line>
+                            </g>
+                            <text th:each="t : ${line.ticks()}" x="28" text-anchor="end"
+                                  th:attr="y=${t.y() + 4}" th:text="${t.value()}">0</text>
+                            <text th:each="l : ${line.labels()}" y="214"
+                                  th:attr="x=${l.x()},text-anchor=${l.anchor()}" th:text="${l.text()}">01/01</text>
+                            <polygon fill="#7A1620" fill-opacity="0.08" th:attr="points=${line.loansArea()}"></polygon>
+                            <polyline fill="none" stroke="#C46A2C" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round"
+                                      th:attr="points=${line.returnsLine()}"></polyline>
+                            <polyline fill="none" stroke="#7A1620" stroke-width="2.5" stroke-linejoin="round"
+                                      th:attr="points=${line.loansLine()}"></polyline>
+                            <th:block th:if="${line.peak() != null}">
+                                <circle r="4" fill="#7A1620" stroke="#fff" stroke-width="2"
+                                        th:attr="cx=${line.peak().x()},cy=${line.peak().y()}"></circle>
+                                <text text-anchor="middle" style="fill:#7A1620;font-weight:700"
+                                      th:attr="x=${line.peak().x()},y=${line.peak().y() - 9}"
+                                      th:text="'pico: ' + ${line.peak().value()}">pico</text>
+                            </th:block>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card card-accent">
+                    <div class="card-header"><h2 class="card-title">Exemplares por status</h2></div>
+                    <div class="card-body">
+                        <div class="dash-empty" th:if="${donut.isEmpty()}">Nenhum exemplar cadastrado.</div>
+                        <div class="donut-wrap" th:unless="${donut.isEmpty()}">
+                            <svg viewBox="0 0 140 140" width="170" height="170" role="img" aria-label="Rosca com a distribuição dos exemplares por status">
+                                <g transform="rotate(-90 70 70)" fill="none" stroke-width="20">
+                                    <circle th:each="s : ${donut.slices()}" cx="70" cy="70" r="54"
+                                            th:attr="stroke=${s.color()},stroke-dasharray=${s.dashArray()},stroke-dashoffset=${s.dashOffset()}"></circle>
+                                </g>
+                                <text x="70" y="68" text-anchor="middle" style="font-size:22px;font-weight:700;fill:#2B1A1C"
+                                      th:text="${#numbers.formatInteger(donut.total(), 1, 'POINT')}">0</text>
+                                <text x="70" y="86" text-anchor="middle" style="font-size:10px;fill:#6B5557">exemplares</text>
+                            </svg>
+                            <ul class="donut-legend">
+                                <li th:each="s : ${donut.slices()}">
+                                    <span class="sw" th:style="'background:' + ${s.color()}"></span>
+                                    <span th:text="${s.label()} + ' (' + ${s.percent()} + '%)'">Disponível</span>
+                                    <strong th:text="${#numbers.formatInteger(s.quantity(), 1, 'POINT')}">0</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= atrasados e departamentos ================= -->
+        <div class="row g-3 mb-3">
+            <div class="col-lg-7" id="atrasados">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Empréstimos atrasados</h2>
+                        <a th:href="@{/emprestimos}" th:text="'Ver todos (' + ${k.delayedLoans()} + ')'">Ver todos</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="dash-empty" th:if="${#lists.isEmpty(d.delayedLoans())}">Nenhum empréstimo atrasado.</div>
+                        <div class="table-responsive" th:unless="${#lists.isEmpty(d.delayedLoans())}">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Empréstimo</th>
+                                    <th scope="col">Aluno</th>
+                                    <th scope="col">Exemplares</th>
+                                    <th scope="col">Vencimento</th>
+                                    <th scope="col">Atraso</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="l : ${d.delayedLoans()}">
+                                    <td class="mono" th:text="'#' + ${l.loanId()}">#1</td>
+                                    <td>
+                                        <span th:text="${l.studentName()}">Aluno</span><br>
+                                        <small th:if="${l.ra()}" th:text="'RA ' + ${l.ra()}">RA</small>
+                                    </td>
+                                    <td th:text="${l.copies()}">Título</td>
+                                    <td th:text="${#temporals.format(l.dueDate(), 'dd/MM/yyyy')}">01/01/2026</td>
+                                    <td>
+                                        <span class="badge sev" th:classappend="'sev-' + ${l.severity()}"
+                                              th:text="${l.delayedDays()} + (${l.delayedDays() == 1} ? ' dia' : ' dias')">1 dia</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-header"><h2 class="card-title">Ocupação por departamento</h2></div>
+                    <div class="card-body occ">
+                        <p class="note">% dos exemplares de cada departamento que estão emprestados agora</p>
+                        <div class="dash-empty" th:if="${#lists.isEmpty(d.departmentOccupation())}">Nenhum departamento cadastrado.</div>
+                        <div class="occ-row" th:each="o : ${d.departmentOccupation()}">
+                            <div>
+                                <span th:text="${o.department()}">Departamento</span>
+                                <strong th:text="${o.percent()} + '%'">0%</strong>
+                            </div>
+                            <div class="progress" role="progressbar"
+                                 th:attr="aria-label=${o.department()},aria-valuenow=${o.percent()}"
+                                 aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" th:style="'width:' + ${o.percent()} + '%'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= atividade, segurança e usuários ================= -->
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Atividade recente</h2>
+                        <a th:href="@{/relatorios/auditoria}">Trilha de auditoria</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="dash-empty" th:if="${#lists.isEmpty(d.recentActivity())}">Nenhum registro ainda.</div>
+                        <ul class="feed" th:unless="${#lists.isEmpty(d.recentActivity())}">
+                            <li th:each="a : ${d.recentActivity()}">
+                                <span class="dot" aria-hidden="true"></span>
+                                <span>
+                                    <strong class="mono" th:text="${a.action()}">ACAO</strong>
+                                    <span th:if="${a.details()}" th:text="' · ' + ${a.details()}">detalhe</span><br>
+                                    <small th:text="(${a.username()} ?: 'sistema') + ' · ' + ${#temporals.format(a.timeStamp(), 'dd/MM HH:mm')}">usuário · data</small>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card">
+                    <div class="card-header"><h2 class="card-title">Segurança (24 h)</h2></div>
+                    <div class="card-body kv">
+                        <div><span>Logins com sucesso</span><strong th:text="${d.security().loginSuccess()}">0</strong></div>
+                        <div><span>Falhas de login</span><strong th:classappend="${d.security().loginFailure() > 0} ? 'warn' : ''" th:text="${d.security().loginFailure()}">0</strong></div>
+                        <div><span>Falhas de MFA</span><strong th:classappend="${d.security().mfaFailure() > 0} ? 'warn' : ''" th:text="${d.security().mfaFailure()}">0</strong></div>
+                        <div><span>Acessos negados</span><strong th:text="${d.security().accessDenied()}">0</strong></div>
+                        <div><span>Senhas redefinidas</span><strong th:text="${d.security().passwordResets()}">0</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card">
+                    <div class="card-header"><h2 class="card-title">Alunos</h2></div>
+                    <div class="card-body kv">
+                        <div><span>Ativos</span><strong th:text="${#numbers.formatInteger(k.activeStudents(), 1, 'POINT')}">0</strong></div>
+                        <div><span>Sem atividade há +80 dias</span><strong th:classappend="${k.inactiveStudents() > 0} ? 'warn' : ''" th:text="${#numbers.formatInteger(k.inactiveStudents(), 1, 'POINT')}">0</strong></div>
+                        <p class="note" th:text="'Nos últimos ' + ${period} + ' dias'">No período</p>
+                        <div><span>Empréstimos</span><strong th:text="${k.loansInPeriod()}">0</strong></div>
+                        <div><span>Devoluções</span><strong th:text="${k.returnsInPeriod()}">0</strong></div>
+                        <div><span>Saídas (venda, doação, baixa)</span><strong th:text="${k.exitsInPeriod()}">0</strong></div>
+                        <a th:href="@{/usuarios}" class="btn-outline btn-small" style="text-align:center">Ver usuários</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+/*
+  Dashboard administrativo — ajustes do AdminLTE para a identidade da Searchoteca.
+  Ordem de carregamento na página: adminlte.min.css → style.css → dashboard.css.
+  Tudo aqui fica dentro de .dash, para não vazar para o resto do sistema.
+*/
+
+.dash {
+    --bs-primary: var(--color-accent);
+    --bs-primary-rgb: 122, 22, 32;
+    --bs-link-color: var(--color-accent);
+    --bs-link-hover-color: #5C0F17;
+    --bs-body-font-family: var(--font-sans);
+    --bs-border-color: var(--color-border);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+}
+
+.dash a { color: var(--color-accent); }
+.dash a:hover { color: #5C0F17; }
+
+/* ---------- cabeçalho ---------- */
+.dash-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.dash-header .page-title { margin-bottom: 4px; }
+.dash-updated { color: var(--color-text-muted); font-size: 14px; margin: 0; }
+
+.dash-period { display: flex; flex-wrap: wrap; gap: 6px; }
+.dash-period a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 14px;
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    background: #fff;
+}
+.dash-period a.active { background: var(--color-accent); color: #fff; }
+
+/* ---------- caixas do topo (small-box do AdminLTE) ---------- */
+.dash .small-box { margin: 0; border-radius: 10px; color: #fff; }
+.dash .small-box .inner h3 { font-family: var(--font-sans); font-weight: 700; }
+.dash .small-box .small-box-icon { width: 64px; height: 64px; opacity: .35; }
+.dash .small-box .small-box-footer { color: rgba(255, 255, 255, .92); text-decoration: none; }
+.dash .small-box .small-box-footer:hover { color: #fff; }
+.dash .sb-wine  { background: #7A1620; }
+.dash .sb-rust  { background: #A8441C; }
+.dash .sb-blue  { background: #2F5D7C; }
+.dash .sb-slate { background: #3D3A39; }
+
+/* ---------- info-box ---------- */
+.dash .info-box { margin: 0; border-radius: 10px; min-height: 84px; }
+.dash .info-box-icon { background: #FBE4DD; color: var(--color-accent); border-radius: 8px; }
+.dash .info-box-number { font-size: 20px; }
+.dash .info-box-number small { color: var(--color-text-muted); font-weight: 500; font-size: 13px; }
+
+/* ---------- cards ---------- */
+.dash .card { margin: 0; height: 100%; border-radius: 10px; border-color: var(--color-border); }
+.dash .card-accent { border-top: 3px solid var(--color-accent); }
+.dash .card-header { background: #fff; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.dash .card-title { margin: 0; font-size: 16px; font-weight: 600; font-family: var(--font-sans); }
+.dash .card-header a { font-size: 13px; font-weight: 600; }
+
+.dash .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #4A3A3C; }
+.dash .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dash .legend .ln { width: 14px; height: 0; border-top: 3px solid var(--color-accent); }
+.dash .legend .ln-dash { border-top-style: dashed; border-top-color: #C46A2C; }
+
+.dash .chart svg { display: block; width: 100%; height: auto; }
+.dash .chart text { font-family: var(--font-sans); font-size: 11px; fill: #6B5557; }
+
+.dash .donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.dash .donut-legend { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.dash .donut-legend li { display: flex; align-items: center; gap: 8px; }
+.dash .donut-legend .sw { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.dash .donut-legend strong { margin-left: auto; }
+
+.dash .occ { display: flex; flex-direction: column; gap: 14px; font-size: 13px; }
+.dash .occ-row div:first-child { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.dash .progress { height: 10px; background: #F3E4DE; }
+.dash .progress-bar { background: var(--color-accent); }
+
+.dash .table { font-size: 13px; margin: 0; }
+.dash .table small { color: var(--color-text-muted); }
+.dash .sev { color: #fff; }
+.dash .sev-3 { background: #7A1620; }
+.dash .sev-2 { background: #A8441C; }
+.dash .sev-1 { background: #E0955C; color: #2B1A1C; }
+
+.dash .feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
+.dash .feed li { display: flex; gap: 12px; }
+.dash .feed .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent); margin-top: 6px; flex-shrink: 0; }
+.dash .feed small { color: var(--color-text-muted); }
+
+.dash .kv { display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
+.dash .kv div { display: flex; justify-content: space-between; gap: 12px; }
+.dash .kv .warn { color: #A8441C; }
+
+.dash .dash-empty { color: var(--color-text-muted); font-size: 13px; text-align: center; padding: 24px 0; }
+.dash .note { color: var(--color-text-muted); font-size: 12px; margin: 0; }
+
+/* telas estreitas: a sidebar do layout ocupa espaço fixo; o conteúdo continua rolando */
+@media (max-width: 768px) {
+    .dash .small-box .inner h3 { font-size: 28px; }
+}
