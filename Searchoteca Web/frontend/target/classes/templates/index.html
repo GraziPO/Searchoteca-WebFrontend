@@ -7,15 +7,15 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar(null)}"></div>
 
     <main class="content">
-        <h1 style="color:#9B2226;">Bem-vindo à Searchoteca</h1>
-        <p>Use o menu ao lado para navegar entre acervo, usuários, empréstimos e relatórios.</p>
-        <a th:href="@{/acervo}" class="btn-submit" style="display:inline-block; text-decoration:none;">Ir para o Acervo →</a>
+        <div class="page-banner">Searchoteca</div>
+        <p>Use o menu ao lado para navegar entre usuários, acervo, empréstimos e relatórios.</p>
+        <a th:href="@{/acervo}" class="btn-solid">Ir para o Acervo →</a>
     </main>
 </div>
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movimentação em lote - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">ACERVO / EXEMPLARES</div>
+        <h1 class="page-title">Movimentação em lote</h1>
+        <p class="page-intro">
+            Escolha a prateleira de destino e leia as etiquetas com o leitor de código de barras.
+            Nada é gravado até você confirmar. Se algum exemplar tiver problema, nenhum é movido
+            e a mensagem lista todos os problemas de uma vez.
+        </p>
+
+        <div class="form-card">
+            <form th:action="@{/acervo/exemplares/movimentacao}" method="post" class="data-form">
+                <div class="field-full">
+                    <label>LOCALIZAÇÃO DE DESTINO</label>
+                    <select name="localCode" required>
+                        <option value="">Selecione a prateleira...</option>
+                        <option th:each="loc : ${localizacoes}" th:value="${loc.localCode}"
+                                th:selected="${loc.localCode == localCode}"
+                                th:text="${loc.localCode + ' — ' + loc.localName + ' (' + loc.departCode + ')'}">LOC — Nome (DEPTO)</option>
+                    </select>
+                </div>
+                <div class="field-full">
+                    <label>CÓDIGOS LIDOS</label>
+                    <textarea name="copyCodes" class="scan-area" rows="8" required autofocus
+                              th:text="${copyCodes}" data-scan-count="contador"
+                              placeholder="Leia uma etiqueta por linha"></textarea>
+                    <div id="contador" class="scan-counter"></div>
+                </div>
+                <div>
+                    <label>QUANTIDADE CONTADA</label>
+                    <input type="number" name="expectedQuantity" min="1" max="200" th:value="${expectedQuantity}">
+                    <div class="hint">Conte os livros na mão. Se não bater com a leitura, o sistema avisa antes de gravar.</div>
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{/acervo}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid">Confirmar movimentação</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/scanner.js}"></script>
+</body>
+</html>

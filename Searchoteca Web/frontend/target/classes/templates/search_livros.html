@@ -7,43 +7,71 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/layout :: topbar('Minha Biblioteca')}"></div>
+<div th:replace="~{fragments/layout :: topbar}"></div>
 
 <div class="page-wrapper">
     <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
 
     <main class="content">
         <a th:href="@{/acervo/livros}" class="back-link">←</a>
-        <h1 style="color:#9B2226;" th:text="${editando} ? 'EDITAR LIVRO' : 'NOVO LIVRO'">NOVO LIVRO</h1>
+        <div class="page-banner">Searchoteca</div>
 
-        <form th:action="${editando} ? @{'/acervo/livros/' + ${livro.isbn} + '/editar'} : @{/acervo/livros}"
-              th:object="${livro}" method="post" class="data-form">
-            <label>ISBN</label>
-            <input type="text" th:field="*{isbn}" th:readonly="${editando}" required>
+        <div th:replace="~{fragments/layout :: alerts}"></div>
 
-            <label>TÍTULO</label>
-            <input type="text" th:field="*{title}" required>
+        <div class="breadcrumb">ACERVO / LIVROS</div>
+        <h1 class="page-title" th:text="${editando} ? 'Editar livro' : 'Incluir livro'">Incluir livro</h1>
 
-            <label>AUTOR</label>
-            <input type="text" th:field="*{author}" required>
+        <div class="form-card">
+            <form th:action="${editando} ? @{'/acervo/livros/' + ${livro.isbn} + '/editar'} : @{/acervo/livros}"
+                  th:object="${livro}" method="post" class="data-form">
+                <div>
+                    <label>ISBN</label>
+                    <input type="text" th:field="*{isbn}" th:readonly="${editando}" required>
+                </div>
+                <div>
+                    <label>TÍTULO</label>
+                    <input type="text" th:field="*{title}" required>
+                </div>
+                <div>
+                    <label>AUTOR</label>
+                    <input type="text" th:field="*{author}" required>
+                </div>
+                <div>
+                    <label>ANO DE LANÇAMENTO</label>
+                    <input type="number" th:field="*{rel_year}">
+                </div>
+                <div>
+                    <label>EDITORA</label>
+                    <input type="text" th:field="*{publisher}">
+                </div>
+                <div>
+                    <label>GÊNERO</label>
+                    <input type="text" th:field="*{genre}">
+                </div>
 
-            <label>ANO DE LANÇAMENTO</label>
-            <input type="number" th:field="*{rel_year}">
+                <div class="form-actions">
+                    <a th:href="@{/acervo/livros}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid" th:text="${editando} ? 'ATUALIZAR' : 'Incluir'">Incluir</button>
+                </div>
+            </form>
+        </div>
 
-            <label>EDITORA</label>
-            <input type="text" th:field="*{publisher}">
-
-            <label>GENERO</label>
-            <input type="text" th:field="*{genre}">
-
-            <label>LOCALIZAÇÃO (código)</label>
-            <input type="text" th:field="*{localCode}">
-
-            <label>DEPARTAMENTO (código)</label>
-            <input type="text" th:field="*{departCode}">
-
-            <button type="submit" class="btn-submit" th:text="${editando} ? 'ATUALIZAR' : 'INCLUIR'">INCLUIR</button>
-        </form>
+        <!-- Preço de venda (RF07): só o root altera, por uma rota própria do backend -->
+        <div class="panel" th:if="${editando and nav.editPrice()}" style="margin-top: 24px;">
+            <h2>Preço de venda</h2>
+            <p class="hint" style="margin-top:0">
+                Opcional, para organizações que vendem exemplares. Deixe em branco para remover o preço.
+                As vendas só funcionam com <span class="mono">SALES_ENABLED=true</span> no backend.
+            </p>
+            <form th:action="@{'/acervo/livros/' + ${livro.isbn} + '/preco'}" method="post" class="inline-fields">
+                <div>
+                    <label>PREÇO (R$)</label>
+                    <input type="number" name="salePrice" step="0.01" min="0"
+                           th:value="${livro.salePrice}" placeholder="0,00">
+                </div>
+                <button type="submit" class="btn-solid">Salvar preço</button>
+            </form>
+        </div>
     </main>
 </div>
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meus empréstimos - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('meus')}"></div>
+
+    <main class="content">
+        <div class="page-banner">Searchoteca</div>
+
+        <div class="breadcrumb">ÁREA DO ALUNO</div>
+        <div class="list-header">
+            <h1 class="page-title big">MEUS EMPRÉSTIMOS</h1>
+            <a th:href="@{/consulta}" class="btn-outline">Consultar acervo</a>
+        </div>
+
+        <table class="data-table" th:if="${not #lists.isEmpty(emprestimos)}">
+            <thead>
+            <tr>
+                <th>Nº</th>
+                <th>DATA</th>
+                <th>DEVOLUÇÃO PREVISTA</th>
+                <th>STATUS</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${emprestimos}">
+                <td th:text="${e.loanId}"></td>
+                <td th:text="${#temporals.format(e.loanDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#temporals.format(e.dueDate, 'dd/MM/yyyy')}"></td>
+                <td><span th:replace="~{fragments/loans :: status(${e})}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(emprestimos)}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <div class="empty-title">Você ainda não tem empréstimos</div>
+            <div>Procure um livro no acervo e retire no balcão da biblioteca.</div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comprovante - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('saidas')}"></div>
+
+    <main class="content">
+        <a th:href="@{/saidas/nova}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb no-print">SAÍDAS E COMPROVANTES</div>
+
+        <form th:action="@{/comprovantes}" method="get" class="toolbar no-print">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                <input type="text" name="codigo" th:value="${codigo}" placeholder="Código do comprovante, ex.: CMP-20261107-000042">
+            </div>
+            <button type="submit" class="btn-solid">Buscar</button>
+            <button type="button" class="btn-outline" onclick="window.print()" th:if="${comprovante}">Imprimir</button>
+        </form>
+
+        <div class="receipt" th:if="${comprovante}" th:with="c=${comprovante}">
+            <div class="receipt-header">
+                <div>
+                    <div class="breadcrumb" style="margin:0">COMPROVANTE DE SAÍDA</div>
+                    <div class="receipt-code" th:text="${c.code()}">CMP-00000000-000000</div>
+                </div>
+                <div style="text-align:right">
+                    <div><strong th:text="${c.exitTypeLabel()}">Venda</strong></div>
+                    <div class="muted" th:text="${#temporals.format(c.issuedAt(), 'dd/MM/yyyy HH:mm')}">data</div>
+                </div>
+            </div>
+
+            <div class="detail-grid">
+                <div th:if="${c.operator() != null}">
+                    <div class="detail-label">Operador</div>
+                    <div th:text="${c.operator().name() + ' (' + c.operator().username() + ')'}">operador</div>
+                </div>
+                <div th:if="${c.student() != null}">
+                    <div class="detail-label">Aluno</div>
+                    <div th:text="${c.student().name() + ' — RA ' + c.student().ra()}">aluno</div>
+                </div>
+                <div th:if="${c.dueDate() != null}">
+                    <div class="detail-label">Devolução prevista</div>
+                    <div th:text="${#temporals.format(c.dueDate(), 'dd/MM/yyyy')}">data</div>
+                </div>
+            </div>
+
+            <table class="data-table" style="margin-top:16px">
+                <thead>
+                <tr>
+                    <th>EXEMPLAR</th>
+                    <th>TÍTULO</th>
+                    <th>AUTOR</th>
+                    <th class="num" th:if="${c.total() != null}">VALOR</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="i : ${c.items()}">
+                    <td class="mono" th:text="${i.copyCode()}"></td>
+                    <td th:text="${i.title()}"></td>
+                    <td th:text="${i.author()}"></td>
+                    <td class="num" th:if="${c.total() != null}"
+                        th:text="${i.unitPrice() != null} ? ${'R$ ' + #numbers.formatDecimal(i.unitPrice(), 1, 'POINT', 2, 'COMMA')} : '—'"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="receipt-total" th:if="${c.total() != null}"
+                 th:text="${'Total: R$ ' + #numbers.formatDecimal(c.total(), 1, 'POINT', 2, 'COMMA')}">Total</div>
+
+            <div th:if="${c.notes() != null and !#strings.isEmpty(c.notes())}" style="margin-top:16px">
+                <div class="detail-label">Observações</div>
+                <div th:text="${c.notes()}">observações</div>
+            </div>
+        </div>
+
+        <div class="empty-state" th:if="${comprovante == null and #strings.isEmpty(codigo)}">
+            <div class="empty-title">Informe o código para consultar um comprovante</div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

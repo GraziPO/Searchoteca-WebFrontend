@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastrar aluno - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('emprestimos')}"></div>
+
+    <main class="content">
+        <a th:href="@{/emprestimos}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">EMPRÉSTIMOS / ALUNOS</div>
+        <h1 class="page-title">Cadastrar aluno</h1>
+        <p class="page-intro">
+            O aluno recebe acesso para acompanhar os próprios empréstimos.
+            A senha abaixo é provisória: no primeiro acesso ele precisa criar uma nova.
+        </p>
+
+        <div class="form-card">
+            <form th:action="@{/alunos}" method="post" class="data-form">
+                <div>
+                    <label>RA</label>
+                    <input type="text" name="ra" th:value="${aluno?.ra()}" required>
+                </div>
+                <div>
+                    <label>NOME COMPLETO</label>
+                    <input type="text" name="completeName" th:value="${aluno?.completeName()}" required>
+                </div>
+                <div>
+                    <label>E-MAIL</label>
+                    <input type="email" name="email" th:value="${aluno?.email()}" required>
+                    <div class="hint">É para onde vai o código de verificação do login.</div>
+                </div>
+                <div>
+                    <label>TELEFONE</label>
+                    <input type="tel" name="phone" th:value="${aluno?.phone()}">
+                </div>
+                <div>
+                    <label>NOME DE USUÁRIO</label>
+                    <input type="text" name="username" th:value="${aluno?.username()}" required>
+                </div>
+                <div>
+                    <label>SENHA PROVISÓRIA</label>
+                    <input type="password" name="password" required minlength="8" maxlength="72" autocomplete="new-password">
+                    <div class="hint">Ao menos 8 caracteres, com letras e números.</div>
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{/emprestimos}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid">Cadastrar aluno</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

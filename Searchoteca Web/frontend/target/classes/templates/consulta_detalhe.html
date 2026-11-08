@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${livro.title()} + ' - Searchoteca'">Livro - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div th:class="${currentUser} ? 'page-wrapper' : ''">
+    <th:block th:if="${currentUser}">
+        <div th:replace="~{fragments/layout :: sidebar('consulta')}"></div>
+    </th:block>
+
+    <main th:class="${currentUser} ? 'content' : 'public-content'">
+        <a th:href="@{/consulta(q=${q})}" class="back-link">←</a>
+        <div class="breadcrumb">CONSULTAR ACERVO</div>
+        <h1 class="page-title" th:text="${livro.title()}">Título</h1>
+
+        <div class="panel">
+            <div class="detail-grid">
+                <div><div class="detail-label">Autor</div><div th:text="${livro.author()}">Autor</div></div>
+                <div><div class="detail-label">Editora</div><div th:text="${livro.publisher() ?: '—'}">Editora</div></div>
+                <div><div class="detail-label">Ano</div><div th:text="${livro.relYear() ?: '—'}">Ano</div></div>
+                <div><div class="detail-label">Gênero</div><div th:text="${livro.genre() ?: '—'}">Gênero</div></div>
+                <div><div class="detail-label">ISBN</div><div class="mono" th:text="${livro.isbn()}">ISBN</div></div>
+                <div>
+                    <div class="detail-label">Disponíveis</div>
+                    <div class="availability" th:classappend="${livro.totalAvailable() > 0} ? 'yes' : 'no'"
+                         th:text="${livro.totalAvailable()}">0</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Onde encontrar</h2>
+        <table class="data-table" th:if="${not #lists.isEmpty(livro.locations())}">
+            <thead>
+            <tr>
+                <th>DEPARTAMENTO</th>
+                <th>LOCALIZAÇÃO</th>
+                <th class="num">DISPONÍVEIS</th>
+                <th class="num">TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="loc : ${livro.locations()}">
+                <td th:text="${loc.departCode() + ' — ' + loc.departName()}"></td>
+                <td th:text="${loc.localCode() + ' — ' + loc.localName()}"></td>
+                <td class="num" th:text="${loc.available()}"></td>
+                <td class="num" th:text="${loc.total()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="empty-state" th:if="${#lists.isEmpty(livro.locations())}">
+            <div class="empty-title">Este livro ainda não tem exemplares no acervo</div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

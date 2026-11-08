@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entrada de exemplares - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('acervo')}"></div>
+
+    <main class="content">
+        <a th:href="@{/acervo}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">ACERVO / EXEMPLARES</div>
+        <h1 class="page-title">Entrada de exemplares</h1>
+        <p class="page-intro">
+            Cada exemplar recebe um código único e um número de índice (cópia 1, cópia 2...).
+            Depois de cadastrar, a próxima tela mostra as etiquetas para impressão.
+        </p>
+
+        <div class="form-card">
+            <form th:action="@{/acervo/exemplares}" method="post" class="data-form">
+                <div class="field-full">
+                    <label>LIVRO</label>
+                    <select name="isbn" required>
+                        <option value="">Selecione o livro...</option>
+                        <option th:each="l : ${livros}" th:value="${l.isbn}" th:selected="${l.isbn == isbn}"
+                                th:text="${l.title + ' — ' + l.author + ' (' + l.isbn + ')'}">Título — Autor (ISBN)</option>
+                    </select>
+                    <div class="hint">O livro precisa estar cadastrado em Acervo / Livros antes da entrada dos exemplares.</div>
+                </div>
+                <div>
+                    <label>LOCALIZAÇÃO</label>
+                    <select name="localCode" required>
+                        <option value="">Selecione a prateleira...</option>
+                        <option th:each="loc : ${localizacoes}" th:value="${loc.localCode}"
+                                th:text="${loc.localCode + ' — ' + loc.localName + ' (' + loc.departCode + ')'}">LOC — Nome (DEPTO)</option>
+                    </select>
+                    <div class="hint">O departamento é o da localização escolhida.</div>
+                </div>
+                <div>
+                    <label>QUANTIDADE</label>
+                    <input type="number" name="quantity" min="1" max="100" value="1" required>
+                    <div class="hint">De 1 a 100 exemplares por vez.</div>
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{/acervo}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid">Cadastrar e gerar etiquetas</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

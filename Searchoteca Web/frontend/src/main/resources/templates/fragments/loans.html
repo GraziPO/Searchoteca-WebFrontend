@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Selo de status do empréstimo. Uso: th:replace="~{fragments/loans :: status(${emprestimo})}" -->
+<span th:fragment="status(e)" class="status-pill"
+      th:classappend="${e.overdue} ? 'overdue' : (${e.status == 'OPEN'} ? 'open' : (${e.status == 'CLOSED'} ? 'closed' : 'cancelled'))"
+      th:text="${e.statusLabel}">Aberto</span>
+</body>
+</html>

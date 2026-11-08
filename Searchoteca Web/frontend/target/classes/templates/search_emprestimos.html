@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Novo empréstimo - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('emprestimos')}"></div>
+
+    <main class="content">
+        <a th:href="@{/emprestimos}" class="back-link">←</a>
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">EMPRÉSTIMOS</div>
+        <h1 class="page-title">Novo empréstimo</h1>
+        <p class="page-intro">
+            Se o aluno ainda não tem cadastro, faça primeiro em
+            <a th:href="@{/alunos/novo}">Cadastrar aluno</a>. Todos os exemplares precisam estar disponíveis:
+            se um deles não estiver, nada é registrado.
+        </p>
+
+        <div class="form-card">
+            <form th:action="@{/emprestimos}" method="post" class="data-form">
+                <div class="field-full">
+                    <label>RA DO ALUNO</label>
+                    <input type="text" name="ra" th:value="${ra}" required autofocus>
+                </div>
+                <div class="field-full">
+                    <label>IDS DOS EXEMPLARES</label>
+                    <textarea name="items" class="scan-area" rows="5" required th:text="${items}"
+                              data-scan-count="contador" placeholder="Um ID por linha"></textarea>
+                    <div id="contador" class="scan-counter"></div>
+                    <div class="hint">O ID aparece na etiqueta de cada exemplar, ao lado da localização.</div>
+                </div>
+
+                <div class="form-actions">
+                    <a th:href="@{/emprestimos}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid">Registrar empréstimo</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/scanner.js}"></script>
+</body>
+</html>

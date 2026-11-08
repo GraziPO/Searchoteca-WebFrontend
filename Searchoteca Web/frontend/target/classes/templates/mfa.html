@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificação em duas etapas - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <span class="logo">Searchoteca</span>
+        <div class="auth-subtitle">
+            Enviamos um código para <strong th:text="${email}">seu e-mail</strong>
+        </div>
+
+        <div class="auth-error" th:if="${erro}" th:text="${erro}"></div>
+        <div class="auth-info" th:if="${info}" th:text="${info}"></div>
+
+        <form th:action="@{/mfa/verify}" method="post">
+            <div>
+                <label>CÓDIGO DE VERIFICAÇÃO</label>
+                <input type="text" name="code" maxlength="6" inputmode="numeric" autocomplete="one-time-code" required autofocus>
+            </div>
+            <button type="submit" class="btn-solid">Verificar</button>
+        </form>
+
+        <div class="auth-footer-link">
+            <form th:action="@{/mfa/resend}" method="post">
+                <button type="submit">Reenviar código</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

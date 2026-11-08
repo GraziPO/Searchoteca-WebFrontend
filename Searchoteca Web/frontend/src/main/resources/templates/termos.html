@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Termos de Uso - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card legal-card">
+        <span class="logo">Searchoteca</span>
+        <div class="auth-subtitle">
+            Antes de continuar, leia e aceite os documentos abaixo.
+        </div>
+
+        <div class="auth-error" th:if="${erro}" th:text="${erro}"></div>
+
+        <h2 class="legal-heading">
+            <span th:text="${termos.title()}">Termos de Uso</span>
+            <small th:text="'versão ' + ${termos.version()}">versão 1.0</small>
+        </h2>
+        <div class="legal-box markdown" th:text="${termos.content()}">conteúdo</div>
+
+        <h2 class="legal-heading">
+            <span th:text="${privacidade.title()}">Política de Privacidade</span>
+            <small th:text="'versão ' + ${privacidade.version()}">versão 1.0</small>
+        </h2>
+        <div class="legal-box markdown" th:text="${privacidade.content()}">conteúdo</div>
+
+        <form th:action="@{/termos/aceitar}" method="post">
+            <label class="legal-check">
+                <input type="checkbox" name="aceito" value="true" required>
+                <span>Li e aceito os Termos de Uso e a Política de Privacidade.</span>
+            </label>
+            <button type="submit" class="btn-solid">Aceitar e continuar</button>
+        </form>
+
+        <div class="auth-footer-link">
+            <a th:href="@{/logout}">Cancelar e sair</a>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/markdown :: script}"></th:block>
+</body>
+</html>

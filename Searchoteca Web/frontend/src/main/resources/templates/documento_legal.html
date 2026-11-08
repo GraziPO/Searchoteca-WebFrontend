@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${documento.title()} + ' - Searchoteca'">Documento - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card legal-card">
+        <span class="logo">Searchoteca</span>
+        <h2 class="legal-heading">
+            <span th:text="${documento.title()}">Documento</span>
+            <small th:text="'versão ' + ${documento.version()}">versão 1.0</small>
+        </h2>
+        <div class="legal-box legal-box-full markdown" th:text="${documento.content()}">conteúdo</div>
+
+        <div class="auth-footer-link">
+            <a th:href="@{/login}">Voltar ao login</a>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/markdown :: script}"></th:block>
+</body>
+</html>

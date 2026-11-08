@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Empréstimos - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('emprestimos')}"></div>
+
+    <main class="content">
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">EMPRÉSTIMOS</div>
+        <div class="list-header">
+            <h1 class="page-title big">EMPRÉSTIMOS</h1>
+            <div class="toolbar" style="margin:0">
+                <a th:href="@{/alunos/novo}" class="btn-outline">+ Cadastrar aluno</a>
+                <a th:href="@{/emprestimos/novo}" class="btn-solid">+ Novo empréstimo</a>
+            </div>
+        </div>
+
+        <!-- Devolução: o operador lê o exemplar; o backend acha o empréstimo em aberto dele -->
+        <div class="panel">
+            <h2>Registrar devolução</h2>
+            <form th:action="@{/emprestimos/devolucao}" method="post" class="inline-fields">
+                <div>
+                    <label>ID DO EXEMPLAR</label>
+                    <input type="text" name="copyId" inputmode="numeric" required placeholder="ex.: 42">
+                </div>
+                <button type="submit" class="btn-solid">Devolver</button>
+            </form>
+            <div class="hint">O empréstimo é encerrado automaticamente quando o último livro volta.</div>
+        </div>
+
+        <form th:action="@{/emprestimos}" method="get" class="toolbar">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                <input type="text" placeholder="Filtrar nesta lista..." data-filter-table="tabela-emprestimos" disabled>
+            </div>
+            <select name="status" onchange="this.form.submit()">
+                <option value="" th:selected="${status == ''}">Todos</option>
+                <option value="OPEN" th:selected="${status == 'OPEN'}">Abertos</option>
+                <option value="OVERDUE" th:selected="${status == 'OVERDUE'}">Atrasados</option>
+                <option value="CLOSED" th:selected="${status == 'CLOSED'}">Devolvidos</option>
+                <option value="CANCELLED" th:selected="${status == 'CANCELLED'}">Cancelados</option>
+            </select>
+            <noscript><button type="submit" class="btn-outline">Filtrar</button></noscript>
+        </form>
+
+        <table id="tabela-emprestimos" class="data-table" th:if="${not #lists.isEmpty(emprestimos)}">
+            <thead>
+            <tr>
+                <th>Nº</th>
+                <th>ALUNO (ID)</th>
+                <th>DATA</th>
+                <th>DEVOLUÇÃO PREVISTA</th>
+                <th>STATUS</th>
+                <th>AÇÕES</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${emprestimos}">
+                <td th:text="${e.loanId}"></td>
+                <td th:text="${e.studentId}"></td>
+                <td th:text="${#temporals.format(e.loanDate, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(e.dueDate, 'dd/MM/yyyy')}"></td>
+                <td><span th:replace="~{fragments/loans :: status(${e})}"></span></td>
+                <td class="actions-cell">
+                    <form th:if="${e.open}" th:action="@{'/emprestimos/' + ${e.loanId} + '/cancelar'}" method="post"
+                          onsubmit="return confirm('Cancelar este empréstimo? Os exemplares voltam para o acervo.');"
+                          class="inline-form">
+                        <button type="submit" class="btn-delete">Cancelar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(emprestimos)}">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <div class="empty-title">Nenhum empréstimo neste filtro</div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/table-filter.js}"></script>
+</body>
+</html>

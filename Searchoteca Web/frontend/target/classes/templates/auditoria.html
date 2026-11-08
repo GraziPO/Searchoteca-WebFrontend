@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Auditoria - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar('relatorios')}"></div>
+
+    <main class="content">
+        <div class="page-banner">Searchoteca</div>
+
+        <div class="breadcrumb">RELATÓRIOS</div>
+        <h1 class="page-title big">TRILHA DE AUDITORIA</h1>
+
+        <form th:action="@{/relatorios/auditoria}" method="get" class="panel inline-fields">
+            <div>
+                <label>USUÁRIO</label>
+                <input type="text" name="usuario" th:value="${usuario}" placeholder="Todos">
+            </div>
+            <div>
+                <label>REGISTROS</label>
+                <select name="limite">
+                    <option th:each="n : ${ {50, 100, 250, 500} }" th:value="${n}" th:text="${n}"
+                            th:selected="${n == limite}">100</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-solid">Filtrar</button>
+        </form>
+
+        <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <input type="text" placeholder="Filtrar por ação ou detalhe..." data-filter-table="tabela-auditoria" disabled>
+        </div>
+
+        <table id="tabela-auditoria" class="data-table" th:if="${not #lists.isEmpty(registros)}">
+            <thead>
+            <tr>
+                <th>DATA E HORA</th>
+                <th>USUÁRIO</th>
+                <th>AÇÃO</th>
+                <th>DETALHES</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${registros}">
+                <td class="mono" th:text="${#temporals.format(r.timeStamp(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+                <td th:text="${r.username() ?: '—'}"></td>
+                <td class="mono" th:text="${r.action()}"></td>
+                <td th:text="${r.details()}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(registros)}">
+            <div class="empty-title">Nenhum registro encontrado</div>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/table-filter.js}"></script>
+</body>
+</html>

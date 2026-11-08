@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alterar senha - Searchoteca</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: topbar}"></div>
+
+<div class="page-wrapper">
+    <div th:replace="~{fragments/layout :: sidebar(null)}"></div>
+
+    <main class="content">
+        <div class="page-banner">Searchoteca</div>
+
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
+        <div class="breadcrumb">MINHA CONTA</div>
+        <h1 class="page-title">Alterar senha</h1>
+
+        <div class="form-card">
+            <form th:action="@{/conta/senha}" method="post" class="data-form">
+                <div class="field-full">
+                    <label>SENHA ATUAL</label>
+                    <input type="password" name="currentPassword" required autocomplete="current-password">
+                </div>
+                <div>
+                    <label>NOVA SENHA</label>
+                    <input type="password" name="newPassword" required minlength="8" maxlength="72" autocomplete="new-password">
+                    <div class="hint" th:text="${dica}">A senha deve ter ao menos 8 caracteres.</div>
+                </div>
+                <div>
+                    <label>CONFIRME A NOVA SENHA</label>
+                    <input type="password" name="confirmPassword" required minlength="8" maxlength="72" autocomplete="new-password">
+                </div>
+                <div class="form-actions">
+                    <a th:href="@{/}" class="btn-outline">Cancelar</a>
+                    <button type="submit" class="btn-solid">Alterar senha</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
