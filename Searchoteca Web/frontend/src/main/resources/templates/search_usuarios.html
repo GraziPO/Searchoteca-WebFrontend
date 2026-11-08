@@ -16,6 +16,8 @@
         <a th:href="@{/usuarios}" class="back-link">←</a>
         <div class="page-banner">Searchoteca</div>
 
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
         <div class="breadcrumb">USUÁRIOS</div>
         <h1 class="page-title" th:text="${editando} ? 'Editar usuário' : 'Incluir usuário'">Incluir usuário</h1>
 
@@ -24,7 +26,7 @@
                   th:object="${usuario}" method="post" class="data-form">
                 <div>
                     <label>ID PERSONALIZADO</label>
-                    <input type="text" th:field="*{customId}" required>
+                    <input type="text" th:field="*{customId}" placeholder="Opcional">
                 </div>
                 <div>
                     <label>NOME DE USUÁRIO</label>
@@ -39,12 +41,20 @@
                     <input type="email" th:field="*{email}" required>
                 </div>
                 <div>
-                    <label>TIPO DE ACESSO</label>
-                    <input type="text" th:field="*{role_code}" placeholder="ex: ADMIN, BIBLIOTECARIO" required>
+                    <label>PERFIL DE ACESSO</label>
+                    <!-- Alunos têm cadastro próprio (Empréstimos > Cadastrar aluno). Root só aparece para o root. -->
+                    <select th:field="*{role_code}" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="r : ${roleLabels}"
+                                th:if="${r.key != 'students' and (r.key != 'root' or nav.isRoot())}"
+                                th:value="${r.key}" th:text="${r.value}">perfil</option>
+                    </select>
                 </div>
                 <div>
                     <label th:text="${editando} ? 'NOVA SENHA (opcional)' : 'SENHA'">SENHA</label>
-                    <input type="password" th:field="*{password}" th:required="${!editando}">
+                    <input type="password" th:field="*{password}" th:required="${!editando}" autocomplete="new-password">
+                    <div class="hint" th:unless="${editando}">Senha inicial: o usuário vai precisar trocá-la no primeiro acesso.</div>
+                    <div class="hint" th:if="${editando}">Se preencher, a troca volta a ser obrigatória no próximo acesso.</div>
                 </div>
 
                 <div class="form-actions">

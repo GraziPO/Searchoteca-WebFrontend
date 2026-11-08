@@ -16,6 +16,8 @@
         <a th:href="@{/acervo/livros}" class="back-link">←</a>
         <div class="page-banner">Searchoteca</div>
 
+        <div th:replace="~{fragments/layout :: alerts}"></div>
+
         <div class="breadcrumb">ACERVO / LIVROS</div>
         <h1 class="page-title" th:text="${editando} ? 'Editar livro' : 'Incluir livro'">Incluir livro</h1>
 
@@ -51,6 +53,23 @@
                     <a th:href="@{/acervo/livros}" class="btn-outline">Cancelar</a>
                     <button type="submit" class="btn-solid" th:text="${editando} ? 'ATUALIZAR' : 'Incluir'">Incluir</button>
                 </div>
+            </form>
+        </div>
+
+        <!-- Preço de venda (RF07): só o root altera, por uma rota própria do backend -->
+        <div class="panel" th:if="${editando and nav.editPrice()}" style="margin-top: 24px;">
+            <h2>Preço de venda</h2>
+            <p class="hint" style="margin-top:0">
+                Opcional, para organizações que vendem exemplares. Deixe em branco para remover o preço.
+                As vendas só funcionam com <span class="mono">SALES_ENABLED=true</span> no backend.
+            </p>
+            <form th:action="@{'/acervo/livros/' + ${livro.isbn} + '/preco'}" method="post" class="inline-fields">
+                <div>
+                    <label>PREÇO (R$)</label>
+                    <input type="number" name="salePrice" step="0.01" min="0"
+                           th:value="${livro.salePrice}" placeholder="0,00">
+                </div>
+                <button type="submit" class="btn-solid">Salvar preço</button>
             </form>
         </div>
     </main>

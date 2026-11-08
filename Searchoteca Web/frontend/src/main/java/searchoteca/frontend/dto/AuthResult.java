@@ -6,9 +6,10 @@ import lombok.Setter;
 
 /**
  * Une os formatos de resposta que as rotas de login do backend podem devolver:
- *  - termos pendentes:  {termsRequired, termsToken, termsVersion, privacyVersion}
- *  - MFA pendente:      {mfaRequired, mfaToken, email, expiresInSeconds}
- *  - login concluído:   {token, username, role_code}
+ *  - termos pendentes:   {termsRequired, termsToken, termsVersion, privacyVersion}
+ *  - MFA pendente:       {mfaRequired, mfaToken, email, expiresInSeconds}
+ *  - troca de senha:     {passwordChallengeRequired, passwordChangeToken, expiresInSeconds}
+ *  - login concluído:    {token, username, role_code}
  * ignoreUnknown: se o backend passar a mandar um campo novo, o login não quebra.
  */
 @Getter
@@ -25,6 +26,9 @@ public class AuthResult {
     private String email;
     private Long expiresInSeconds;
 
+    private Boolean passwordChallengeRequired;
+    private String passwordChangeToken;
+
     private String token;
     private String username;
     private String role_code;
@@ -35,6 +39,10 @@ public class AuthResult {
 
     public boolean isMfaChallenge() {
         return token == null && mfaToken != null;
+    }
+
+    public boolean isPasswordChangeChallenge() {
+        return token == null && passwordChangeToken != null;
     }
 
     public boolean isFullyAuthenticated() {
