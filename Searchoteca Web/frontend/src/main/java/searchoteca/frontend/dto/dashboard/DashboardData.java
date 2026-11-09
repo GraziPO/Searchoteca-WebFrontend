@@ -14,7 +14,7 @@ import java.util.List;
  */
 public record DashboardData(
         int periodDays,
-        LocalDateTime generatedAt,
+        LocalDate generatedAt,
         Kpis kpis,
         List<Diary> diary,
         List<CountByStatus> copiesByStatus,
@@ -70,7 +70,7 @@ public record DashboardData(
                                   long accessDenied, long passwordResets) {}
 
     public static DashboardData empty(int days) {
-        return new DashboardData(days, LocalDateTime.now(),
+        return new DashboardData(days, LocalDate.now(),
                 new Kpis(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, BigDecimal.ZERO, 0),
                 List.of(), List.of(), List.of(), List.of(),
                 new SecuritySummary(0, 0, 0, 0, 0), List.of());

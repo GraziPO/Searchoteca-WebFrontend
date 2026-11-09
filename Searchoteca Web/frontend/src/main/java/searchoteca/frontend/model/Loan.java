@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Loan {
     private Long loanId;
-    private LocalDateTime loanDate;
+    private LocalDate loanDate;
     private LocalDate dueDate;
     private Long operatorId;
     private Long studentId;

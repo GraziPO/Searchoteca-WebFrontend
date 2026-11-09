@@ -9,7 +9,7 @@ import java.util.List;
 
 /** Comprovante de saída, exatamente como o backend gravou. */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ReceiptSnapshot(String code, String exitType, LocalDateTime issuedAt,
+public record ReceiptSnapshot(String code, String exitType, LocalDate issuedAt,
                               Operator operator, Student student, LocalDate dueDate,
                               List<Item> items, BigDecimal total, String notes) {
 
